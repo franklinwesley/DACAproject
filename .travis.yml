@@ -1,0 +1,8 @@
+language: java
+jdk:
+- oraclejdk8
+deploy:
+  provider: heroku
+  api_key:
+    secure: e43872dd-e1fd-4d32-a3be-76f77ceda53b
+  app: daca
