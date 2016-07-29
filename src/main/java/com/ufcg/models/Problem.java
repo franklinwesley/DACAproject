@@ -11,8 +11,7 @@ public class Problem implements Serializable{
     private String description;
     private Long id;
 
-    public Problem() {
-    }
+    public Problem() {}
 
     public Problem(String name, String description, Long id) {
         this.name = name;
