@@ -3,9 +3,6 @@ package com.ufcg.controllers;
 import com.ufcg.models.Test;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by franklin on 29/07/16.
- */
 @RestController
 @RequestMapping(value="/problem/{problemId}/test")
 public class TestController {
