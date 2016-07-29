@@ -62,6 +62,7 @@ public class Test implements Serializable{
                 "name='" + name + '\'' +
                 ", tip='" + tip + '\'' +
                 ", inputsOutputs=" + inputsOutputs +
+                ", type=" + type +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.ufcg.models;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created by franklin on 29/07/16.
@@ -8,13 +9,13 @@ import java.io.Serializable;
 public class Solution implements Serializable {
 
     private Long code;
-    private String output;
+    private Map<String,String> inputOutput;
 
     private Solution() {}
 
-    public Solution(Long code, String output) {
+    public Solution(Long code, String input, Map<String,String> inputOutput) {
         this.code = code;
-        this.output = output;
+        this.inputOutput = inputOutput;
     }
 
     public Long getCode() {
@@ -25,19 +26,19 @@ public class Solution implements Serializable {
         this.code = code;
     }
 
-    public String getOutput() {
-        return output;
+    public Map<String, String> getInputOutput() {
+        return inputOutput;
     }
 
-    public void setOutput(String output) {
-        this.output = output;
+    public void setInputOutput(Map<String, String> inputOutput) {
+        this.inputOutput = inputOutput;
     }
 
     @Override
     public String toString() {
         return "Solution{" +
                 "code=" + code +
-                ", output='" + output + '\'' +
+                ", inputOutput=" + inputOutput +
                 '}';
     }
 }

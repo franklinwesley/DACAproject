@@ -1,22 +1,39 @@
 package com.ufcg.models;
 
+import com.ufcg.Utils.Visibility;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by huawei on 29/07/16.
  */
 public class Problem implements Serializable{
 
+    private Long id;
     private String name;
     private String description;
-    private Long id;
+    private String tip;
+    private List<Test> tests;
+    private Visibility type;
 
     public Problem() {}
 
-    public Problem(String name, String description, Long id) {
+    public Problem(Long id, String name, String description, String tip, List<Test> tests, Visibility type) {
         this.name = name;
         this.description = description;
         this.id = id;
+        this.tip = tip;
+        this.tests = tests;
+        this.type = type;
+    }
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
     }
 
     public String getName() {
@@ -43,12 +60,31 @@ public class Problem implements Serializable{
         this.id = id;
     }
 
+    public List<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
+    }
+
+    public Visibility getType() {
+        return type;
+    }
+
+    public void setType(Visibility type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Problem{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", id=" + id +
+                ", tip='" + tip + '\'' +
+                ", tests=" + tests +
+                ", type=" + type +
                 '}';
     }
 }
