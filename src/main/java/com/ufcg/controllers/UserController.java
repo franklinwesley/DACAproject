@@ -1,6 +1,8 @@
 package com.ufcg.controllers;
 
+import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.Test;
 import com.ufcg.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class UserController {
             users.add(new User("Email " + i, "Password", (long) i));
         }
 
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
@@ -51,11 +53,11 @@ public class UserController {
         List<Problem> list = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            list.add(new Problem("Problem " + i, "description", (long) i));
+            list.add(new Problem((long) i, "Problem " + i, "description", "tip", new ArrayList<>(), Visibility.PRIVATE));
         }
         //Lista de problemas
 
-        return new ResponseEntity<List<Problem>>(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}/statistic", method= RequestMethod.GET)
