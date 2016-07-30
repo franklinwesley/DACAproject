@@ -1,38 +1,85 @@
 package com.ufcg.controllers;
 
+import com.ufcg.models.Solution;
 import com.ufcg.models.Test;
+import com.ufcg.services.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/problem/{problemId}/test")
 public class TestController {
 
+    @Autowired
+    TestService testService;
+
     @RequestMapping(value="", method= RequestMethod.GET)
-    public String getTests(@PathVariable("problemId") String problemaId){
-        return "Get Tests " + problemaId;
+    public ResponseEntity<List<Test>> getTests(@PathVariable("problemId") Long problemId){
+        List<Test> tests = testService.findAllTestsOfProblem(problemId);
+        if(tests.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(tests, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
-    public String getTest(@PathVariable("problemId") String problemaId,
-                          @PathVariable("id") String testId){
-        return "Get Test " + testId;
+    public ResponseEntity<Test> getTest(@PathVariable("problemId") Long problemId,
+                                        @PathVariable("id") Long testId){
+        Test test = testService.findById(problemId,testId);
+        if(test == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public String createTest(@PathVariable("problemId") String problemaId,
-                             @RequestBody Test test){
-        return "Create Test";
+    public ResponseEntity<Void> createTest(@PathVariable("problemId") Long problemId,
+                                           @RequestBody Test test,
+                                           UriComponentsBuilder ucBuilder){
+        if (testService.isTestExist(problemId,test)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        testService.createTest(problemId,test);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/problem/{problemId}/test/{id}").buildAndExpand(problemId,test.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public String updateTest(@PathVariable("problemId") String problemaId,
-                             @PathVariable("id") String testId, @RequestBody Test test){
-        return "Update Test " + testId + "\n" + test.toString();
+    public ResponseEntity<Test> updateTest(@PathVariable("problemId") Long problemId,
+                                           @PathVariable("id") Long testId,
+                                           @RequestBody Test test){
+        Test currentTest = testService.findById(problemId,testId);
+        if (currentTest == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        currentTest.setName(test.getName());
+        currentTest.setTip(test.getTip());
+        currentTest.setType(test.getType());
+        currentTest.setInputsOutputs(test.getInputsOutputs());
+
+        testService.updateTest(problemId,currentTest);
+        return new ResponseEntity<>(currentTest, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
-    public String deleteTest(@PathVariable("problemId") String problemaId,
-                             @PathVariable("id") String testId){
-        return "Delete Test " + testId;
+    public ResponseEntity<Test> deleteTest(@PathVariable("problemId") Long problemId,
+                                           @PathVariable("id") Long testId){
+        Test test = testService.findById(problemId,testId);
+        if (test == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        testService.deleteTest(problemId,test);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

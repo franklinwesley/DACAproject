@@ -40,7 +40,8 @@ public class SolutionController {
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public ResponseEntity<Void> createSolution(@RequestBody Solution solution, UriComponentsBuilder ucBuilder){
+    public ResponseEntity<Void> createSolution(@RequestBody Solution solution,
+                                               UriComponentsBuilder ucBuilder){
         if (solutionService.isSolutionExist(solution)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -48,7 +49,7 @@ public class SolutionController {
         solutionService.createSolution(solution);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/problem/{id}").buildAndExpand(solution.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/solution/{id}").buildAndExpand(solution.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -62,7 +63,7 @@ public class SolutionController {
 
         currentSolution.setProblem(solution.getProblem());
         currentSolution.setCode(solution.getCode());
-        currentSolution.setInputOutput(solution.getInputOutput());
+        currentSolution.setInputsOutputs(solution.getInputsOutputs());
 
         solutionService.updateSolution(currentSolution);
         return new ResponseEntity<>(currentSolution, HttpStatus.OK);

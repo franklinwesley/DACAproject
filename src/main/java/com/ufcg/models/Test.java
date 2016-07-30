@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Test implements Serializable{
 
+    private Long id;
     private String name;
     private String tip;
     private Map<String, String> inputsOutputs;
@@ -17,11 +18,20 @@ public class Test implements Serializable{
 
     public Test() {}
 
-    public Test(String name, String tip, Map<String, String> inputsOutputs, Visibility type) {
+    public Test(Long id, String name, String tip, Map<String, String> inputsOutputs, Visibility type) {
+        this.id = id;
         this.name = name;
         this.tip = tip;
         this.inputsOutputs = inputsOutputs;
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -59,7 +69,8 @@ public class Test implements Serializable{
     @Override
     public String toString() {
         return "Test{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", tip='" + tip + '\'' +
                 ", inputsOutputs=" + inputsOutputs +
                 ", type=" + type +

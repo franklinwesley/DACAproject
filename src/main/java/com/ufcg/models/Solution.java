@@ -11,14 +11,14 @@ public class Solution implements Serializable {
     private Long id;
     private String code;
     private Problem problem;
-    private Map<String,String> inputOutput;
+    private Map<String,String> inputsOutputs;
 
     private Solution() {}
 
-    public Solution(Long id, String code, Problem problem, Map<String,String> inputOutput) {
+    public Solution(Long id, String code, Problem problem, Map<String,String> inputsOutputs) {
         this.id = id;
         this.code = code;
-        this.inputOutput = inputOutput;
+        this.inputsOutputs = inputsOutputs;
         this.problem = problem;
     }
 
@@ -46,12 +46,12 @@ public class Solution implements Serializable {
         this.problem = problem;
     }
 
-    public Map<String, String> getInputOutput() {
-        return inputOutput;
+    public Map<String, String> getInputsOutputs() {
+        return inputsOutputs;
     }
 
-    public void setInputOutput(Map<String, String> inputOutput) {
-        this.inputOutput = inputOutput;
+    public void setInputsOutputs(Map<String, String> inputsOutputs) {
+        this.inputsOutputs = inputsOutputs;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Solution implements Serializable {
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", problem=" + problem +
-                ", inputOutput=" + inputOutput +
+                ", inputsOutputs=" + inputsOutputs +
                 '}';
     }
 }
