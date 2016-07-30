@@ -25,7 +25,7 @@ public class DacaApplication {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-				.paths(regex("/.*"))
+//				.paths(PathSelectors.regex("/basic-error-controller.*"))
                 .paths(not(regex("/error/.*")))
 				.build();
 	}
@@ -35,8 +35,7 @@ public class DacaApplication {
 				.title("Spring REST Dirlididi")
 				.description("Dirlididi is a system for online submission exercises.")
 				.termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
-				.contact("Franklin Wesley")
-				.contact("Pablo Victor")
+				.contact("Franklin Wesley, Pablo Victor")
 				.license("Apache License Version 2.0")
 				.licenseUrl("https://github.com/IBM-Bluemix/news-aggregator/blob/master/LICENSE")
 				.version("1.0")
