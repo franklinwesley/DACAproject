@@ -18,7 +18,7 @@ public class StatisticController {
     StatisticService statisticService;
 
     @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<Statistic> getUsers(@RequestParam(value = "userId", required = false) Long userId){
+    public ResponseEntity<Statistic> getStatistics(@RequestParam(value = "userId", required = false) Long userId){
         //TODO token?
         int resolvedProblems = statisticService.resolvedProblems();
         int usersSubmittingProblems = statisticService.submittingProblems();

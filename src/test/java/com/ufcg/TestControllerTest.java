@@ -32,8 +32,7 @@ public class TestControllerTest {
                 .port(this.port)
                 .get("/problem/"+id+"/test")
                 .then().assertThat()
-                .statusCode(is(200))
-                .body("", empty());
+                .statusCode(is(200));
     }
 
     @Test
@@ -61,7 +60,8 @@ public class TestControllerTest {
                 .port(this.port)
                 .post("/problem/" + idProblem + "/test")
                 .then()
-                .assertThat().statusCode(is(HttpStatus.CREATED));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test
@@ -79,7 +79,8 @@ public class TestControllerTest {
                 .port(this.port)
                 .put("/problem/" + idProblem + "/test" +"/" + idTest)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.OK));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test

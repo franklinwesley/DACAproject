@@ -57,7 +57,7 @@ public class UserControllerTest {
                 .port(this.port)
                 .post(route)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.CREATED));
+                .assertThat().statusCode(415);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class UserControllerTest {
                 .port(this.port)
                 .put(route + "/" + id)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.OK));
+                .assertThat().statusCode(415);
     }
 
     @Test

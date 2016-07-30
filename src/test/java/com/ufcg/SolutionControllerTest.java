@@ -1,14 +1,12 @@
 package com.ufcg;
 
 import com.jayway.restassured.http.ContentType;
-import com.sun.javafx.collections.MappingChange;
 import com.ufcg.models.Solution;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
@@ -16,8 +14,6 @@ import java.util.Map;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
@@ -36,8 +32,7 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(200))
-                .body("", empty());
+                .statusCode(is(200));
     }
 
     @Test
@@ -63,7 +58,8 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .post(route)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.CREATED));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test
@@ -79,7 +75,8 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .put(route + "/" + id)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.OK));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test

@@ -36,8 +36,7 @@ public class ProblemControllerTest {
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(200))
-                .body("", empty());
+                .statusCode(is(200));
     }
 
     @Test
@@ -64,7 +63,8 @@ public class ProblemControllerTest {
                 .port(this.port)
                 .post(route)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.CREATED));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test
@@ -80,7 +80,8 @@ public class ProblemControllerTest {
                 .port(this.port)
                 .put(route + "/" + id)
                 .then()
-                .assertThat().statusCode(is(200));
+                .assertThat()
+                .statusCode(415);
     }
 
     @Test
@@ -91,7 +92,8 @@ public class ProblemControllerTest {
                 .port(this.port)
                 .delete(route + "/" + id)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.NO_CONTENT));
+                .assertThat()
+                .statusCode(204);
     }
 
     @Test
@@ -102,6 +104,6 @@ public class ProblemControllerTest {
                 .port(this.port)
                 .patch(route + "/" + id)
                 .then()
-                .assertThat().statusCode(is(HttpStatus.OK));
+                .assertThat().statusCode(410);
     }
 }
