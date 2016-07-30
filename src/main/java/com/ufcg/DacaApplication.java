@@ -1,5 +1,6 @@
 package com.ufcg;
 
+import com.google.common.base.Predicates;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +24,8 @@ public class DacaApplication {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-				.paths(PathSelectors.regex("/basic-error-controller.*"))
-//                .paths(Predicates.not(PathSelectors.regex('/error.*')))
+//                .apis(RequestHandlerSelectors.any())
+                .paths(Predicates.not(PathSelectors.regex("/error.*")))
 				.build();
 	}
 
