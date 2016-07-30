@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 @Service("problemService")
 public class ProblemServiceImpl implements ProblemService {
 

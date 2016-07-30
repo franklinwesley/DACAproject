@@ -2,13 +2,12 @@ package com.ufcg.services;
 
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
+@Service("userService")
 public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
