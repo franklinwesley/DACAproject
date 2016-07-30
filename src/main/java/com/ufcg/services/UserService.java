@@ -4,9 +4,6 @@ import com.ufcg.models.User;
 
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public interface UserService {
 
     User findById(Long id);

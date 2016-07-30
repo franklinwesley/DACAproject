@@ -11,9 +11,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 @RestController
 @RequestMapping(value="/solution")
 public class SolutionController {

@@ -1,6 +1,5 @@
 package com.ufcg.services;
 
-import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 @Service("solutionService")
 public class SolutionServiceImpl implements SolutionService {
     @Override

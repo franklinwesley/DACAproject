@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value="/statistic")
@@ -19,11 +20,12 @@ public class StatisticController {
     StatisticService statisticService;
 
     @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<HashMap<String, Integer>> getUsers(@RequestParam(value = "userId", required = false) Long userId){
+    public ResponseEntity<Map<String, Integer>> getUsers(@RequestParam(value = "userId", required = false) Long userId){
+        //TODO token?
         int resolvedProblems = statisticService.resolvedProblems();
         int usersSubmittingProblems = statisticService.submittingProblems();
         int userResolvedProblems = 0;
-        HashMap<String, Integer> statistics = new HashMap<>();
+        Map<String, Integer> statistics = new HashMap<>();
                 
         statistics.put("resolvedProblems", resolvedProblems);
         statistics.put("usersSubmittingProblems", usersSubmittingProblems);
@@ -32,8 +34,6 @@ public class StatisticController {
             userResolvedProblems = statisticService.resolvedProblems(userId);
             statistics.put("userResolvedProblems", userResolvedProblems);
         }
-
-        //Retornar esse valores
         return new ResponseEntity<>(statistics,HttpStatus.OK);
     }
 }

@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 @Service("testService")
 public class TestServiceImpl implements TestService {
     @Override

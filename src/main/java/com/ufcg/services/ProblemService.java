@@ -4,9 +4,6 @@ import com.ufcg.models.Problem;
 
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public interface ProblemService {
 
     Problem findById(Long id);

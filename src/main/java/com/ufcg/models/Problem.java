@@ -5,9 +5,6 @@ import com.ufcg.Utils.Visibility;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by huawei on 29/07/16.
- */
 public class Problem implements Serializable{
 
     private Long id;

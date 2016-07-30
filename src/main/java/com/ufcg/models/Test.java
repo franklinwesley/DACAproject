@@ -5,9 +5,6 @@ import com.ufcg.Utils.Visibility;
 import java.io.Serializable;
 import java.util.Map;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public class Test implements Serializable{
 
     private Long id;

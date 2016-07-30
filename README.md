@@ -9,8 +9,10 @@ Backend da pagina [Dirlididi](http://dirlididi.com/client/index.html)
 
 # Links
 - Aplicação em execução no Heroku: [Link](https://daca.herokuapp.com/)
-- Aplicação de CI: [Link](https://travis-ci.org/)
+- Aplicação de CI: [Link](https://travis-ci.org/franklinwesley/DACAproject/)
+- Documentação da REST: [Link](http://daca.herokuapp.com/swagger-ui.html/)
 
 # Execução local (Passos)
+- mvn spring-boot:run
 
 

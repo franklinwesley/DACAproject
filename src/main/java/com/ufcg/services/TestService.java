@@ -4,9 +4,6 @@ import com.ufcg.models.Test;
 
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public interface TestService {
 
     Test findById(Long problemId,Long id);

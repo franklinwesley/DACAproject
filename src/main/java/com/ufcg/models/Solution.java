@@ -3,9 +3,6 @@ package com.ufcg.models;
 import java.io.Serializable;
 import java.util.Map;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public class Solution implements Serializable {
 
     private Long id;

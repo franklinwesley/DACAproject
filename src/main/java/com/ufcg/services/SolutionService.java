@@ -4,9 +4,6 @@ import com.ufcg.models.Solution;
 
 import java.util.List;
 
-/**
- * Created by franklin on 29/07/16.
- */
 public interface SolutionService {
 
     Solution findById(Long id);

@@ -22,6 +22,7 @@ public class ProblemController {
     public ResponseEntity<List<Problem>> getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
                                                      @RequestParam(value = "sort", defaultValue = "date") String sort,
                                                      @RequestParam(value = "user", required = false) Long user){
+        //TODO token?
         List<Problem> problems = problemService.findAllProblems(page,sort,user);
         if(problems.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
