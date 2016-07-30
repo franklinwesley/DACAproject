@@ -1,47 +1,96 @@
 package com.ufcg.controllers;
 
-import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
-import com.ufcg.models.Test;
+import com.ufcg.services.ProblemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/problem")
 public class ProblemController {
 
+    @Autowired
+    ProblemService problemService;
+
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity<List<Problem>> getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
                                                      @RequestParam(value = "sort", defaultValue = "date") String sort){
-        List<Problem> problems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            problems.add(new Problem((long) i, "Problem " + i, "description", "tip", new ArrayList<>(), Visibility.PRIVATE));
+        List<Problem> problems = problemService.findAllProblems(page,sort);
+        if(problems.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ResponseEntity<Problem> getProblem(@PathVariable("id") Long problemId){
-        Problem problem = new Problem(problemId, "Problem " + problemId, "description", "tip", new ArrayList<>(), Visibility.PRIVATE);
+        Problem problem = problemService.findById(problemId);
+        if(problem == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(problem, HttpStatus.OK);
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public String createProblem(@RequestBody Problem problem){
-        return "Create Problem";
+    public ResponseEntity<Void> createProblem(@RequestBody Problem problem, UriComponentsBuilder ucBuilder){
+        if (problemService.isProblemExist(problem)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        problemService.createProblem(problem);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/problem/{id}").buildAndExpand(problem.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public String updateProblem(@PathVariable("id") Long problemId, @RequestBody Problem problem){
-        return "Update Problem " + problemId + "\n" + problem.toString();
+    public ResponseEntity<Problem> updateProblem(@PathVariable("id") Long problemId,
+                                                 @RequestBody Problem problem){
+        Problem currentProblem = problemService.findById(problemId);
+        if (currentProblem == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        currentProblem.setName(problem.getName());
+        currentProblem.setDescription(problem.getDescription());
+        currentProblem.setTip(problem.getTip());
+        currentProblem.setType(problem.getType());
+        currentProblem.setTests(problem.getTests());
+
+        problemService.updateProblem(currentProblem);
+        return new ResponseEntity<>(currentProblem, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
     public ResponseEntity<Problem> deleteProblem(@PathVariable("id") Long problemId){
+        Problem problem = problemService.findById(problemId);
+        if (problem == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        problemService.deleteProblem(problem);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value="/{id}", method= RequestMethod.PATCH)
+    public ResponseEntity<Void> publishProblem(@PathVariable("id") Long problemId){
+        Problem problem = problemService.findById(problemId);
+        if (problem == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        boolean publishedProblem = problemService.publishProblem(problem);
+        if (publishedProblem) {
+            return new ResponseEntity<>(HttpStatus.GONE);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

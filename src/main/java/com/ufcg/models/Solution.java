@@ -8,22 +8,42 @@ import java.util.Map;
  */
 public class Solution implements Serializable {
 
-    private Long code;
+    private Long id;
+    private String code;
+    private Problem problem;
     private Map<String,String> inputOutput;
 
     private Solution() {}
 
-    public Solution(Long code, String input, Map<String,String> inputOutput) {
+    public Solution(Long id, String code, Problem problem, Map<String,String> inputOutput) {
+        this.id = id;
         this.code = code;
         this.inputOutput = inputOutput;
+        this.problem = problem;
     }
 
-    public Long getCode() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(String code) {
         this.code = code;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
     }
 
     public Map<String, String> getInputOutput() {
@@ -37,7 +57,9 @@ public class Solution implements Serializable {
     @Override
     public String toString() {
         return "Solution{" +
-                "code=" + code +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", problem=" + problem +
                 ", inputOutput=" + inputOutput +
                 '}';
     }

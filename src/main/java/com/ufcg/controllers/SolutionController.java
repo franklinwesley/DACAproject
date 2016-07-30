@@ -1,41 +1,81 @@
 package com.ufcg.controllers;
 
 import com.ufcg.models.Solution;
+import com.ufcg.services.SolutionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 /**
  * Created by franklin on 29/07/16.
  */
 @RestController
-@RequestMapping(value="/problem/{problemId}/solution")
+@RequestMapping(value="/solution")
 public class SolutionController {
 
+    @Autowired
+    SolutionService solutionService;
+
     @RequestMapping(value="", method= RequestMethod.GET)
-    public String getSolutions(@PathVariable("problemId") String problemaId){
-        return "Get Solutions";
+    public ResponseEntity<List<Solution>> getSolutions(@RequestParam(value = "problemId") Long problemId){
+        List<Solution> solutions = solutionService.findAllSolutionsOfProblem(problemId);
+        if(solutions.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(solutions, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
-    public String getSolution(@PathVariable("problemId") String problemaId,
-                              @PathVariable("id") String solutionId){
-        return "Get Solution " + solutionId;
+    public ResponseEntity<Solution> getSolution(@PathVariable("id") Long solutionId){
+        Solution solution = solutionService.findById(solutionId);
+        if(solution == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(solution, HttpStatus.OK);
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public String createSolution(@PathVariable("problemId") String problemaId,
-                                 @RequestBody Solution solution){
-        return "Create Solution";
+    public ResponseEntity<Void> createSolution(@RequestBody Solution solution, UriComponentsBuilder ucBuilder){
+        if (solutionService.isSolutionExist(solution)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        solutionService.createSolution(solution);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/problem/{id}").buildAndExpand(solution.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public String updateSolution(@PathVariable("problemId") String problemaId,
-                                 @PathVariable("id") String solutionId, @RequestBody Solution solution){
-        return "Update Solution " + solutionId + "\n" + solution.toString();
+    public ResponseEntity<Solution> updateSolution(@PathVariable("id") Long solutionId,
+                                                   @RequestBody Solution solution){
+        Solution currentSolution = solutionService.findById(solutionId);
+        if (currentSolution == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        currentSolution.setProblem(solution.getProblem());
+        currentSolution.setCode(solution.getCode());
+        currentSolution.setInputOutput(solution.getInputOutput());
+
+        solutionService.updateSolution(currentSolution);
+        return new ResponseEntity<>(currentSolution, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
-    public String deleteSolution(@PathVariable("problemId") String problemaId,
-                                 @PathVariable("id") String solutionId){
-        return "Delete Solution " + solutionId;
+    public ResponseEntity<Solution> deleteSolution(@PathVariable("id") Long solutionId){
+        Solution solution = solutionService.findById(solutionId);
+        if (solution == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        solutionService.deleteSolution(solution);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
