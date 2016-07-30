@@ -15,7 +15,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Problem findById(Long id) {
-        return new Problem(id, "Problem " + id, "description", "tip", new ArrayList<>(), Visibility.PRIVATE);
+        return new Problem(id, id, "Problem " + id, "description", "tip", new ArrayList<>(), Visibility.PRIVATE);
     }
 
     @Override
@@ -34,10 +34,10 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> findAllProblems(int page, String sort) {
+    public List<Problem> findAllProblems(int page, String sort, Long user) {
         List<Problem> problems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            problems.add(new Problem((long) i, "Problem " + i, "description", "tip", new ArrayList<>(), Visibility.PRIVATE));
+            problems.add(new Problem((long) i, (long) i, "Problem " + i, "description", "tip", new ArrayList<>(), Visibility.PRIVATE));
         }
         return problems;
     }

@@ -1,5 +1,7 @@
 package com.ufcg.models;
 
+import com.ufcg.Utils.UserType;
+
 import java.io.Serializable;
 
 public class User implements Serializable{
@@ -7,15 +9,15 @@ public class User implements Serializable{
     private String password;
     private String email;
     private Long id;
+    private UserType type;
 
-    public User(){
+    public User(){}
 
-    }
-
-    public User(String email, String password, Long id){
+    public User(String email, String password, Long id, UserType type){
         this.email = email;
         this.password = password;
         this.id = id;
+        this.type = type;
     }
 
     public Long getId() {
@@ -42,8 +44,17 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    public UserType getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return "Email : " + this.email;
+        return "User{" +
+                "password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", id=" + id +
+                ", type=" + type +
+                '}';
     }
 }

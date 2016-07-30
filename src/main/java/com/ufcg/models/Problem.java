@@ -11,6 +11,7 @@ import java.util.List;
 public class Problem implements Serializable{
 
     private Long id;
+    private Long creator;
     private String name;
     private String description;
     private String tip;
@@ -19,8 +20,9 @@ public class Problem implements Serializable{
 
     public Problem() {}
 
-    public Problem(Long id, String name, String description, String tip, List<Test> tests, Visibility type) {
+    public Problem(Long id, Long creator, String name, String description, String tip, List<Test> tests, Visibility type) {
         this.name = name;
+        this.creator = creator;
         this.description = description;
         this.id = id;
         this.tip = tip;
@@ -34,6 +36,10 @@ public class Problem implements Serializable{
 
     public void setTip(String tip) {
         this.tip = tip;
+    }
+
+    public Long getCreator() {
+        return creator;
     }
 
     public String getName() {
@@ -56,10 +62,6 @@ public class Problem implements Serializable{
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public List<Test> getTests() {
         return tests;
     }
@@ -80,6 +82,7 @@ public class Problem implements Serializable{
     public String toString() {
         return "Problem{" +
                 "id=" + id +
+                ", creator=" + creator +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", tip='" + tip + '\'' +

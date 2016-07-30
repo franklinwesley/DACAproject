@@ -20,8 +20,9 @@ public class ProblemController {
 
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity<List<Problem>> getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                     @RequestParam(value = "sort", defaultValue = "date") String sort){
-        List<Problem> problems = problemService.findAllProblems(page,sort);
+                                                     @RequestParam(value = "sort", defaultValue = "date") String sort,
+                                                     @RequestParam(value = "user", required = false) Long user){
+        List<Problem> problems = problemService.findAllProblems(page,sort,user);
         if(problems.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

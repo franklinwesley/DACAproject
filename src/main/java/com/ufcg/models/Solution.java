@@ -10,12 +10,12 @@ public class Solution implements Serializable {
 
     private Long id;
     private String code;
-    private Problem problem;
+    private Long problem;
     private Map<String,String> inputsOutputs;
 
     private Solution() {}
 
-    public Solution(Long id, String code, Problem problem, Map<String,String> inputsOutputs) {
+    public Solution(Long id, String code, Long problem, Map<String,String> inputsOutputs) {
         this.id = id;
         this.code = code;
         this.inputsOutputs = inputsOutputs;
@@ -26,10 +26,6 @@ public class Solution implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getCode() {
         return code;
     }
@@ -38,12 +34,8 @@ public class Solution implements Serializable {
         this.code = code;
     }
 
-    public Problem getProblem() {
+    public Long getProblem() {
         return problem;
-    }
-
-    public void setProblem(Problem problem) {
-        this.problem = problem;
     }
 
     public Map<String, String> getInputsOutputs() {

@@ -61,7 +61,6 @@ public class SolutionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        currentSolution.setProblem(solution.getProblem());
         currentSolution.setCode(solution.getCode());
         currentSolution.setInputsOutputs(solution.getInputsOutputs());
 

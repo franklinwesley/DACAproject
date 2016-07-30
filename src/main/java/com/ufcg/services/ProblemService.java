@@ -13,7 +13,7 @@ public interface ProblemService {
     void createProblem(Problem problem);
     void updateProblem(Problem problem);
     void deleteProblem(Problem problem);
-    List<Problem> findAllProblems(int page, String sort);
+    List<Problem> findAllProblems(int page, String sort, Long user);
     boolean isProblemExist(Problem problem);
     boolean publishProblem(Problem problem);
 }

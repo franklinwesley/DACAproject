@@ -15,7 +15,7 @@ import java.util.List;
 public class SolutionServiceImpl implements SolutionService {
     @Override
     public Solution findById(Long id) {
-        return new Solution(id, "code", new Problem(), new HashMap<>());
+        return new Solution(id, "code", id, new HashMap<>());
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SolutionServiceImpl implements SolutionService {
     public List<Solution> findAllSolutionsOfProblem(Long problemId) {
         List<Solution> solutions = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            solutions.add(new Solution((long) i, "code", new Problem(), new HashMap<>()));
+            solutions.add(new Solution((long) i, "code", (long) i, new HashMap<>()));
         }
         return solutions;
     }

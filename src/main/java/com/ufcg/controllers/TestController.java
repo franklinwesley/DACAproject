@@ -1,6 +1,5 @@
 package com.ufcg.controllers;
 
-import com.ufcg.models.Solution;
 import com.ufcg.models.Test;
 import com.ufcg.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
