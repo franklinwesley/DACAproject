@@ -31,7 +31,7 @@ public class UserControllerTest {
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(200));
+                .statusCode(is(204));
     }
 
     @Test
