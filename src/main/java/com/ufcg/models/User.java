@@ -2,13 +2,24 @@ package com.ufcg.models;
 
 import com.ufcg.Utils.UserType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class User implements Serializable{
 
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String email;
+
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column
+    @Enumerated(EnumType.ORDINAL)
     private UserType type;
 
     public User(){}
