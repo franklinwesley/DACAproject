@@ -2,23 +2,38 @@ package com.ufcg.models;
 
 import com.ufcg.Utils.Visibility;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Entity
 public class Problem implements Serializable{
 
+    @Id
+    @GeneratedValue
     private Long id;
-    //@ManyToOne
-    private Long creator;
+
+    @ManyToOne
+    private User creator;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String tip;
+
+    @OneToMany(mappedBy = "id")
     private List<Test> tests;
+
+    @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
     public Problem() {}
 
-    public Problem(Long creator, String name, String description, String tip, List<Test> tests, Visibility type) {
+    public Problem(User creator, String name, String description, String tip, List<Test> tests, Visibility type) {
         this.name = name;
         this.creator = creator;
         this.description = description;
@@ -35,7 +50,7 @@ public class Problem implements Serializable{
         this.tip = tip;
     }
 
-    public Long getCreator() {
+    public User getCreator() {
         return creator;
     }
 

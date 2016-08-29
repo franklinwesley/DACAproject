@@ -12,5 +12,5 @@ public interface ProblemService {
     void deleteProblem(Problem problem);
     List<Problem> findAllProblems(int page, String sort, Long user);
     boolean isProblemExist(Problem problem);
-    boolean publishProblem(Problem problem);
+    boolean publishProblem(Long problemId);
 }

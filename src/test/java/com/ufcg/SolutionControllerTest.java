@@ -1,6 +1,7 @@
 package com.ufcg;
 
 import com.jayway.restassured.http.ContentType;
+import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +50,7 @@ public class SolutionControllerTest {
     @Test
     public void testCreateSolution() throws Exception {
         Map<String, String> inputs = new HashMap<>();
-        Solution solution = new Solution(11L, "2202", 10L, inputs);
+        Solution solution = new Solution("2202", new Problem(), inputs);
 
         given()
                 .accept(ContentType.JSON)
@@ -65,7 +66,7 @@ public class SolutionControllerTest {
     @Test
     public void testUpdateSolution() throws Exception {
         Map<String, String> inputs = new HashMap<>();
-        Solution solution = new Solution(11L, "2202", 10L, inputs);
+        Solution solution = new Solution("2202", new Problem(), inputs);
         int id = 11;
 
         given()
