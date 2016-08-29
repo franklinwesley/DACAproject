@@ -8,6 +8,7 @@ import java.util.List;
 public class Problem implements Serializable{
 
     private Long id;
+    //@ManyToOne
     private Long creator;
     private String name;
     private String description;
@@ -17,11 +18,10 @@ public class Problem implements Serializable{
 
     public Problem() {}
 
-    public Problem(Long id, Long creator, String name, String description, String tip, List<Test> tests, Visibility type) {
+    public Problem(Long creator, String name, String description, String tip, List<Test> tests, Visibility type) {
         this.name = name;
         this.creator = creator;
         this.description = description;
-        this.id = id;
         this.tip = tip;
         this.tests = tests;
         this.type = type;

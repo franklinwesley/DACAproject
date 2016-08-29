@@ -1,12 +1,10 @@
 package com.ufcg.services;
 
-import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
 import com.ufcg.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("userService")

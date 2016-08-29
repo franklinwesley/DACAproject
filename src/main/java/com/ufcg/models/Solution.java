@@ -1,19 +1,31 @@
 package com.ufcg.models;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Map;
 
+@Entity
 public class Solution implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(nullable = false)
     private String code;
-    private Long problem;
+
+    @ManyToOne
+    //JoinColum nome da coluna
+    private Problem problem;
+
+    @ElementCollection(fetch=FetchType.LAZY)
+    @MapKeyColumn(name = "KEY")
+    @Column(name = "VALUE")
     private Map<String,String> inputsOutputs;
 
     private Solution() {}
 
-    public Solution(Long id, String code, Long problem, Map<String,String> inputsOutputs) {
-        this.id = id;
+    public Solution(String code, Problem problem, Map<String,String> inputsOutputs) {
         this.code = code;
         this.inputsOutputs = inputsOutputs;
         this.problem = problem;
@@ -31,7 +43,7 @@ public class Solution implements Serializable {
         this.code = code;
     }
 
-    public Long getProblem() {
+    public Problem getProblem() {
         return problem;
     }
 
