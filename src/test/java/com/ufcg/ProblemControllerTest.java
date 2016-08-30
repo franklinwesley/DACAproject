@@ -3,6 +3,7 @@ package com.ufcg;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +54,7 @@ public class ProblemControllerTest {
     @Test
     public void testCreateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
-        Problem problem = new Problem(11L, 2L, "name", "description","tip", tests, Visibility.PUBLIC);
+        Problem problem = new Problem(11L, new User(), "name", "description","tip", tests, Visibility.PUBLIC);
         given()
                 .accept(ContentType.JSON)
                 .body(problem)
@@ -68,7 +69,7 @@ public class ProblemControllerTest {
     @Test
     public void testUpdateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
-        Problem problem = new Problem(11L, 2L, "name", "description","tip", tests, Visibility.PUBLIC);
+        Problem problem = new Problem(11L, new User(), "name", "description","tip", tests, Visibility.PUBLIC);
         int id = 1;
 
         given()

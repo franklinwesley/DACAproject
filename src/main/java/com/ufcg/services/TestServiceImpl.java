@@ -1,46 +1,49 @@
 package com.ufcg.services;
 
-import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Test;
+import com.ufcg.repositories.TestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service("testService")
+@Transactional
 public class TestServiceImpl implements TestService {
+
+    @Autowired
+    TestRepository testRepository;
+
     @Override
     public Test findById(Long problemId, Long id) {
-        return new Test(id, "name", "tip", new HashMap<>(), Visibility.PUBLIC);
+        return testRepository.findOne(id);
     }
 
     @Override
     public void createTest(Long problemId, Test test) {
-
+        testRepository.save(test);
     }
 
     @Override
     public void updateTest(Long problemId, Test test) {
-
+        if (isTestExist(problemId, test)) {
+            testRepository.save(test);
+        }
     }
 
     @Override
     public void deleteTest(Long problemId, Test test) {
-
+        testRepository.delete(test);
     }
 
     @Override
     public List<Test> findAllTestsOfProblem(Long problemId) {
-        List<Test> tests = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            tests.add(new Test((long) i, "name", "tip", new HashMap<>(), Visibility.PUBLIC));
-        }
-        return tests;
+        return testRepository.findAll();
     }
 
     @Override
     public boolean isTestExist(Long problemId, Test test) {
-        return false;
+        return testRepository.exists(test.getId());
     }
 }

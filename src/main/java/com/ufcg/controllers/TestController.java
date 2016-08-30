@@ -3,6 +3,7 @@ package com.ufcg.controllers;
 import com.ufcg.models.Test;
 import com.ufcg.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,8 @@ public class TestController {
         currentTest.setName(test.getName());
         currentTest.setTip(test.getTip());
         currentTest.setType(test.getType());
-        currentTest.setInputsOutputs(test.getInputsOutputs());
+        currentTest.setInput(test.getInput());
+        currentTest.setOutput(test.getOutput());
 
         testService.updateTest(problemId,currentTest);
         return new ResponseEntity<>(currentTest, HttpStatus.OK);

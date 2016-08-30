@@ -49,8 +49,7 @@ public class TestControllerTest {
 
     @Test
     public void testCreateTest() throws Exception {
-        Map<String, String> inputs = new HashMap<>();
-        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", inputs, Visibility.PRIVATE);
+        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", "", "", Visibility.PRIVATE);
 
         int idProblem = 11;
         given()
@@ -66,8 +65,7 @@ public class TestControllerTest {
 
     @Test
     public void testUpdateTest() throws Exception {
-        Map<String, String> inputs = new HashMap<>();
-        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", inputs, Visibility.PRIVATE);
+        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", "", "", Visibility.PRIVATE);
 
         int idProblem = 11;
         int idTest = 1;

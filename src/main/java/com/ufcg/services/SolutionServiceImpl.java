@@ -2,12 +2,14 @@ package com.ufcg.services;
 
 import com.ufcg.models.Solution;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service("solutionService")
+@Transactional
 public class SolutionServiceImpl implements SolutionService {
     @Override
     public Solution findById(Long id) {

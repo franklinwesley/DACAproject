@@ -2,50 +2,59 @@ package com.ufcg.services;
 
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.repositories.ProblemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("problemService")
+@Transactional
 public class ProblemServiceImpl implements ProblemService {
+
+    @Autowired
+    ProblemRepository problemRepository;
 
     @Override
     public Problem findById(Long id) {
-        return new Problem(id, id, "Problem " + id, "description", "tip", new ArrayList<>(), Visibility.PRIVATE);
+        return problemRepository.findOne(id);
     }
 
     @Override
     public void createProblem(Problem problem) {
-
+        problemRepository.save(problem);
     }
 
     @Override
     public void updateProblem(Problem problem) {
-
+        if (isProblemExist(problem)) {
+            problemRepository.save(problem);
+        }
     }
 
     @Override
     public void deleteProblem(Problem problem) {
-
+        problemRepository.delete(problem);
     }
 
     @Override
     public List<Problem> findAllProblems(int page, String sort, Long user) {
-        List<Problem> problems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            problems.add(new Problem((long) i, (long) i, "Problem " + i, "description", "tip", new ArrayList<>(), Visibility.PRIVATE));
-        }
-        return problems;
+        return problemRepository.findAll();
     }
 
     @Override
     public boolean isProblemExist(Problem problem) {
-        return false;
+        return problemRepository.exists(problem.getId());
     }
 
     @Override
     public boolean publishProblem(Problem problem) {
-        return true;
+        boolean result = false;
+        int updateType = problemRepository.updateType(problem.getId(), Visibility.PUBLIC);
+        if (updateType > 0) {
+            result = true;
+        }
+        return result;
     }
 }
