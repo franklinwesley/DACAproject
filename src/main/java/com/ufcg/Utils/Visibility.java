@@ -1,17 +1,8 @@
 package com.ufcg.Utils;
 
+/**
+ * Created by franklin on 29/07/16.
+ */
 public enum Visibility {
-
-    PUBLIC("Public"),
-    PRIVATE("Private");
-
-    private String description;
-
-    Visibility(String description){
-        this.description = description;
-    }
-
-    public String getDescription(){
-        return description;
-    }
+    PUBLIC, PRIVATE
 }

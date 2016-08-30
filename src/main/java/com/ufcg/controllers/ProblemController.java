@@ -88,7 +88,7 @@ public class ProblemController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        boolean publishedProblem = problemService.publishProblem(problemId);
+        boolean publishedProblem = problemService.publishProblem(problem);
         if (publishedProblem) {
             return new ResponseEntity<>(HttpStatus.GONE);
         } else {

@@ -2,29 +2,15 @@ package com.ufcg.models;
 
 import com.ufcg.Utils.Visibility;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Map;
 
-@Entity
 public class Test implements Serializable{
 
-    @Id
-    @GeneratedValue
     private Long id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String tip;
-
-    @ElementCollection(fetch=FetchType.EAGER)
-    @MapKeyColumn(name = "KEY")
-    @Column(name = "VALUE")
     private Map<String, String> inputsOutputs;
-
-    @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
     public Test() {}

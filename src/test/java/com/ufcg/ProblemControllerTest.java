@@ -3,13 +3,11 @@ package com.ufcg;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
-import com.ufcg.models.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
@@ -56,7 +53,7 @@ public class ProblemControllerTest {
     @Test
     public void testCreateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
-        Problem problem = new Problem(new User(), "name", "description","tip", tests, Visibility.PUBLIC);
+        Problem problem = new Problem(11L, 2L, "name", "description","tip", tests, Visibility.PUBLIC);
         given()
                 .accept(ContentType.JSON)
                 .body(problem)
@@ -71,7 +68,7 @@ public class ProblemControllerTest {
     @Test
     public void testUpdateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
-        Problem problem = new Problem(new User(), "name", "description","tip", tests, Visibility.PUBLIC);
+        Problem problem = new Problem(11L, 2L, "name", "description","tip", tests, Visibility.PUBLIC);
         int id = 1;
 
         given()

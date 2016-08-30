@@ -15,7 +15,7 @@ public class User implements Serializable{
     private String email;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -24,10 +24,9 @@ public class User implements Serializable{
 
     public User(){}
 
-    public User(String email, String password, Long id, UserType type){
+    public User(String email, String password, UserType type){
         this.email = email;
         this.password = password;
-        this.id = id;
         this.type = type;
     }
 

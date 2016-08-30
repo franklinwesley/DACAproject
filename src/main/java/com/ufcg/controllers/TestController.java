@@ -28,8 +28,9 @@ public class TestController {
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Test> getTest(@PathVariable("id") Long testId){
-        Test test = testService.findById(testId);
+    public ResponseEntity<Test> getTest(@PathVariable("problemId") Long problemId,
+                                        @PathVariable("id") Long testId){
+        Test test = testService.findById(problemId,testId);
         if(test == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -37,23 +38,25 @@ public class TestController {
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public ResponseEntity<Void> createTest(@RequestBody Test test,
+    public ResponseEntity<Void> createTest(@PathVariable("problemId") Long problemId,
+                                           @RequestBody Test test,
                                            UriComponentsBuilder ucBuilder){
-        if (testService.isTestExist(test)) {
+        if (testService.isTestExist(problemId,test)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        testService.createTest(test);
+        testService.createTest(problemId,test);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/problem/{problemId}/test/{id}").buildAndExpand(test.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/problem/{problemId}/test/{id}").buildAndExpand(problemId,test.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
-    public ResponseEntity<Test> updateTest(@PathVariable("id") Long testId,
+    public ResponseEntity<Test> updateTest(@PathVariable("problemId") Long problemId,
+                                           @PathVariable("id") Long testId,
                                            @RequestBody Test test){
-        Test currentTest = testService.findById(testId);
+        Test currentTest = testService.findById(problemId,testId);
         if (currentTest == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -63,18 +66,19 @@ public class TestController {
         currentTest.setType(test.getType());
         currentTest.setInputsOutputs(test.getInputsOutputs());
 
-        testService.updateTest(currentTest);
+        testService.updateTest(problemId,currentTest);
         return new ResponseEntity<>(currentTest, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
-    public ResponseEntity<Test> deleteTest(@PathVariable("id") Long testId){
-        Test test = testService.findById(testId);
+    public ResponseEntity<Test> deleteTest(@PathVariable("problemId") Long problemId,
+                                           @PathVariable("id") Long testId){
+        Test test = testService.findById(problemId,testId);
         if (test == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        testService.deleteTest(test);
+        testService.deleteTest(problemId,test);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
