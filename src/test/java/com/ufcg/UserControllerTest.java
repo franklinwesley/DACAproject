@@ -67,7 +67,7 @@ public class UserControllerTest {
                 .port(this.port)
                 .put(route + "/" + user.getId())
                 .then()
-                .assertThat().statusCode(415);
+                .assertThat().statusCode(400);
     }
 
     @Test
@@ -77,6 +77,6 @@ public class UserControllerTest {
                 .port(this.port)
                 .delete(route + "/" + 121213)
                 .then()
-                .assertThat().statusCode(204);
+                .assertThat().statusCode(404);
     }
 }
