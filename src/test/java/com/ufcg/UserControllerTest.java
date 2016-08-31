@@ -34,18 +34,16 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        int id = 11;
         given()
                 .when()
                 .port(this.port)
-                .get(route +"/" + id)
+                .get(route +"/" + 1191)
                 .then().assertThat()
                 .statusCode(404);
     }
 
     @Test
     public void testCreateUser() throws Exception {
-        long id = 11;
         User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
 
         given()
@@ -60,7 +58,6 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        long id = 11;
         User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
 
         given()
@@ -68,18 +65,17 @@ public class UserControllerTest {
                 .body(user)
                 .when()
                 .port(this.port)
-                .put(route + "/" + id)
+                .put(route + "/" + user.getId())
                 .then()
                 .assertThat().statusCode(415);
     }
 
     @Test
     public void testDeleteUser() throws Exception {
-        int id = 11;
         given()
                 .when()
                 .port(this.port)
-                .delete(route + "/" + id)
+                .delete(route + "/" + 121213)
                 .then()
                 .assertThat().statusCode(204);
     }
