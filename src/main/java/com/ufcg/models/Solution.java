@@ -69,7 +69,7 @@ public class Solution implements Serializable {
     }
 
     private void testSolution(List<Test> problemTests) {
-        //testar solução
+        this.resolved = problemTests.equals(this.inputsOutputs);
     }
 
     @Override

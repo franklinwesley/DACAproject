@@ -83,6 +83,25 @@ public class Test implements Serializable{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Test test = (Test) o;
+
+        if (input != null ? !input.equals(test.input) : test.input != null) return false;
+        return output != null ? output.equals(test.output) : test.output == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = input != null ? input.hashCode() : 0;
+        result = 31 * result + (output != null ? output.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Test{" +
                 "id=" + id +
