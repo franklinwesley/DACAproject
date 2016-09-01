@@ -20,10 +20,11 @@ public class ProblemController {
 
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                               @RequestParam(value = "sort", defaultValue = "date") String sort,
-                                                               @RequestParam(value = "user", required = false) Long user){
+                                      @RequestParam(value = "size", defaultValue = "100") int size,
+                                      @RequestParam(value = "sort", defaultValue = "date") String sort,
+                                      @RequestParam(value = "user", required = false) Long user){
         //TODO token?
-        Page<Problem> problems = problemService.findAllProblems(page,sort,user);
+        Page<Problem> problems = problemService.findAllProblems(page,size,sort,user);
         if(problems.getNumber() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

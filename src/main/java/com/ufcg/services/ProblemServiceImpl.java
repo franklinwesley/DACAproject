@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProblemServiceImpl implements ProblemService {
 
-    private final int PAGE_ELEMENTS_NUMBER = 100;
-
     @Autowired
     ProblemRepository problemRepository;
 
@@ -42,8 +40,9 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public Page<Problem> findAllProblems(int page, String sort, Long user) {
-        return problemRepository.findAll(new PageRequest(page, PAGE_ELEMENTS_NUMBER, new Sort(sort)));
+    public Page<Problem> findAllProblems(int page, int size, String sort, Long user) {
+        return problemRepository.findAll(new PageRequest(page, size, new Sort(sort)));
+        //TODO problemas resolvidos pelo usuário
     }
 
     @Override

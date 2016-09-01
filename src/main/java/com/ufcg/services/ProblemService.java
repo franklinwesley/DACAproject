@@ -9,7 +9,7 @@ public interface ProblemService {
     void createProblem(Problem problem);
     void updateProblem(Problem problem);
     void deleteProblem(Problem problem);
-    Page<Problem> findAllProblems(int page, String sort, Long user);
+    Page<Problem> findAllProblems(int page, int size, String sort, Long user);
     boolean isProblemExist(Problem problem);
     boolean publishProblem(Problem problem);
 }
