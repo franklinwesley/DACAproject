@@ -4,14 +4,17 @@ import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
 import com.ufcg.repositories.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service("problemService")
 @Transactional
 public class ProblemServiceImpl implements ProblemService {
+
+    private final int PAGE_ELEMENTS_NUMBER = 100;
 
     @Autowired
     ProblemRepository problemRepository;
@@ -39,8 +42,8 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> findAllProblems(int page, String sort, Long user) {
-        return problemRepository.findAll();
+    public Page<Problem> findAllProblems(int page, String sort, Long user) {
+        return problemRepository.findAll(new PageRequest(page, PAGE_ELEMENTS_NUMBER, new Sort(sort)));
     }
 
     @Override

@@ -3,13 +3,13 @@ package com.ufcg.controllers;
 import com.ufcg.models.Problem;
 import com.ufcg.services.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value="/problem")
@@ -19,12 +19,12 @@ public class ProblemController {
     ProblemService problemService;
 
     @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<List<Problem>> getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                     @RequestParam(value = "sort", defaultValue = "date") String sort,
-                                                     @RequestParam(value = "user", required = false) Long user){
+    public ResponseEntity getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                               @RequestParam(value = "sort", defaultValue = "date") String sort,
+                                                               @RequestParam(value = "user", required = false) Long user){
         //TODO token?
-        List<Problem> problems = problemService.findAllProblems(page,sort,user);
-        if(problems.isEmpty()){
+        Page<Problem> problems = problemService.findAllProblems(page,sort,user);
+        if(problems.getNumber() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(problems, HttpStatus.OK);
