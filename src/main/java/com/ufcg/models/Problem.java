@@ -34,11 +34,10 @@ public class Problem implements Serializable{
 
     public Problem() {}
 
-    public Problem(Long id, User creator, String name, String description, String tip, List<Test> tests, Visibility type) {
+    public Problem(User creator, String name, String description, String tip, List<Test> tests, Visibility type) {
         this.name = name;
         this.creator = creator;
         this.description = description;
-        this.id = id;
         this.tip = tip;
         this.tests = tests;
         this.type = type;

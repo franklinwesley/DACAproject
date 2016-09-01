@@ -1,7 +1,7 @@
 package com.ufcg.controllers;
 
-import com.ufcg.models.Statistic;
-import com.ufcg.services.StatisticService;
+import com.ufcg.services.SolutionService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatisticController {
 
     @Autowired
-    StatisticService statisticService;
+    SolutionService solutionService;
 
     @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<Statistic> getStatistics(@RequestParam(value = "userId", required = false) Long userId){
+    public ResponseEntity<JSONObject> getStatistics(@RequestParam(value = "userId", required = false) Long userId){
         //TODO token?
-        int resolvedProblems = statisticService.resolvedProblems();
-        int usersSubmittingProblems = statisticService.submittingProblems();
+        int problemsResolved = solutionService.problemsResolved();
+        int usersSubmittingProblems = solutionService.userSubmitting();
 
-        Statistic statistics = new Statistic(resolvedProblems,usersSubmittingProblems);
+        JSONObject response = new JSONObject();
+        response.put("problemsResolved",problemsResolved);
+        response.put("usersSubmittingProblems",usersSubmittingProblems);
 
         if(userId != null){
-            int userResolvedProblems = statisticService.resolvedProblems(userId);
-            statistics.setUserResolvedProblems(userResolvedProblems);
+            int userResolvedProblems = solutionService.userProblemsResolved(userId);
+            response.put("userResolvedProblems",userResolvedProblems);
         }
-        return new ResponseEntity<>(statistics,HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

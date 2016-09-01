@@ -49,7 +49,7 @@ public class TestControllerTest {
 
     @Test
     public void testCreateTest() throws Exception {
-        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", "", "", Visibility.PRIVATE);
+        com.ufcg.models.Test test = new com.ufcg.models.Test("name", "tip", "", "", Visibility.PRIVATE);
 
         int idProblem = 11;
         given()
@@ -65,7 +65,7 @@ public class TestControllerTest {
 
     @Test
     public void testUpdateTest() throws Exception {
-        com.ufcg.models.Test test = new com.ufcg.models.Test(1L, "name", "tip", "", "", Visibility.PRIVATE);
+        com.ufcg.models.Test test = new com.ufcg.models.Test("name", "tip", "", "", Visibility.PRIVATE);
 
         int idProblem = 11;
         int idTest = 1;

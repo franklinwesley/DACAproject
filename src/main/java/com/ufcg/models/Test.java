@@ -30,8 +30,7 @@ public class Test implements Serializable{
 
     public Test() {}
 
-    public Test(Long id, String name, String tip, String input, String output, Visibility type) {
-        this.id = id;
+    public Test(String name, String tip, String input, String output, Visibility type) {
         this.name = name;
         this.tip = tip;
         this.input = input;

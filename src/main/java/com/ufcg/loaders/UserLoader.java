@@ -1,4 +1,4 @@
-package com.ufcg;
+package com.ufcg.loaders;
 
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
