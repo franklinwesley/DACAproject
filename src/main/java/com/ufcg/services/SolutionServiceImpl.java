@@ -49,14 +49,12 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public int problemsResolved() {
-//        return solutionRepository.countDistinctProblemsByResolved(true);
-        return 0;
+        return solutionRepository.countDistinctProblemsByResolved(true);
     }
 
     @Override
     public int userProblemsResolved(Long userId) {
-//        return solutionRepository.countDistinctProblemsByResolvedAndCreator(true, userId);
-        return 0;
+        return solutionRepository.countDistinctProblemsByResolvedAndCreator(true, userId);
     }
 
     @Override
