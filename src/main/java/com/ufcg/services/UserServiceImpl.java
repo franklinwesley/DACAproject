@@ -2,10 +2,12 @@ package com.ufcg.services;
 
 import com.ufcg.models.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {

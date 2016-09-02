@@ -4,13 +4,12 @@ import com.ufcg.Utils.Visibility;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Map;
 
 @Entity
 public class Test implements Serializable{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
@@ -19,21 +18,23 @@ public class Test implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @ElementCollection(fetch=FetchType.EAGER)
-    @MapKeyColumn(name = "KEY")
-    @Column(name = "VALUE")
-    private Map<String, String> inputsOutputs;
+    @Column(nullable = false)
+    private String input;
 
+    @Column(nullable = false)
+    private String output;
+
+    @Column
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
     public Test() {}
 
-    public Test(Long id, String name, String tip, Map<String, String> inputsOutputs, Visibility type) {
-        this.id = id;
+    public Test(String name, String tip, String input, String output, Visibility type) {
         this.name = name;
         this.tip = tip;
-        this.inputsOutputs = inputsOutputs;
+        this.input = input;
+        this.output = output;
         this.type = type;
     }
 
@@ -57,14 +58,6 @@ public class Test implements Serializable{
         this.tip = tip;
     }
 
-    public Map<String, String> getInputsOutputs() {
-        return inputsOutputs;
-    }
-
-    public void setInputsOutputs(Map<String, String> inputsOutputs) {
-        this.inputsOutputs = inputsOutputs;
-    }
-
     public Visibility getType() {
         return type;
     }
@@ -73,13 +66,49 @@ public class Test implements Serializable{
         this.type = type;
     }
 
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Test test = (Test) o;
+
+        if (input != null ? !input.equals(test.input) : test.input != null) return false;
+        return output != null ? output.equals(test.output) : test.output == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = input != null ? input.hashCode() : 0;
+        result = 31 * result + (output != null ? output.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Test{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", tip='" + tip + '\'' +
-                ", inputsOutputs=" + inputsOutputs +
+                ", input='" + input + '\'' +
+                ", output='" + output + '\'' +
                 ", type=" + type +
                 '}';
     }

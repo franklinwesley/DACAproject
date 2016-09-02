@@ -12,4 +12,7 @@ public interface SolutionService {
     void deleteSolution(Solution solution);
     List<Solution> findAllSolutionsOfProblem(Long problemId);
     boolean isSolutionExist(Solution solution);
+    int problemsResolved();
+    int userProblemsResolved(Long userId);
+    int userSubmitting();
 }

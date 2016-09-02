@@ -4,12 +4,14 @@ import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
 import com.ufcg.repositories.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("problemService")
+@Transactional
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
@@ -38,8 +40,9 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> findAllProblems(int page, String sort, Long user) {
-        return problemRepository.findAll();
+    public Page<Problem> findAllProblems(int page, int size, String sort, Long user) {
+        return problemRepository.findAll(new PageRequest(page, size, new Sort(sort)));
+        //TODO problemas resolvidos pelo usuário
     }
 
     @Override
@@ -48,7 +51,12 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public boolean publishProblem(Long problemId) {
-        return problemRepository.updateType(problemId, Visibility.PUBLIC);
+    public boolean publishProblem(Problem problem) {
+        boolean result = false;
+        int updateType = problemRepository.updateType(problem.getId(), Visibility.PUBLIC);
+        if (updateType > 0) {
+            result = true;
+        }
+        return result;
     }
 }

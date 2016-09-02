@@ -8,12 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.empty;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
@@ -31,7 +29,7 @@ public class UserControllerTest {
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(204));
+                .statusCode(is(200));
     }
 
     @Test
@@ -48,7 +46,7 @@ public class UserControllerTest {
     @Test
     public void testCreateUser() throws Exception {
         long id = 11;
-        User user = new User("email@example.com", "password", id, UserType.ADMINISTRATOR);
+        User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
 
         given()
                 .accept(ContentType.JSON)
@@ -63,7 +61,7 @@ public class UserControllerTest {
     @Test
     public void testUpdateUser() throws Exception {
         long id = 11;
-        User user = new User("email@example.com", "password", id, UserType.ADMINISTRATOR);
+        User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
 
         given()
                 .accept(ContentType.JSON)
@@ -83,6 +81,6 @@ public class UserControllerTest {
                 .port(this.port)
                 .delete(route + "/" + id)
                 .then()
-                .assertThat().statusCode(404);
+                .assertThat().statusCode(204);
     }
 }

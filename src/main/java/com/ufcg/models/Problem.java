@@ -10,7 +10,7 @@ import java.util.List;
 public class Problem implements Serializable{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
@@ -25,9 +25,10 @@ public class Problem implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany
     private List<Test> tests;
 
+    @Column
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 

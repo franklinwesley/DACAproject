@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface TestService {
 
-    Test findById(Long id);
-    void createTest(Test test);
-    void updateTest(Test test);
-    void deleteTest(Test test);
+    Test findById(Long problemId,Long id);
+    void createTest(Long problemId, Test test);
+    void updateTest(Long problemId, Test test);
+    void deleteTest(Long problemId, Test test);
     List<Test> findAllTestsOfProblem(Long problemId);
-    boolean isTestExist(Test test);
+    boolean isTestExist(Long problemId, Test test);
 }

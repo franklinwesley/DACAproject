@@ -4,10 +4,12 @@ import com.ufcg.models.Solution;
 import com.ufcg.repositories.SolutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("solutionService")
+@Transactional
 public class SolutionServiceImpl implements SolutionService {
 
     @Autowired
@@ -25,7 +27,7 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public void updateSolution(Solution solution) {
-        if (isSolutionExist(solution)){
+        if (isSolutionExist(solution)) {
             solutionRepository.save(solution);
         }
     }
@@ -43,5 +45,20 @@ public class SolutionServiceImpl implements SolutionService {
     @Override
     public boolean isSolutionExist(Solution solution) {
         return solutionRepository.exists(solution.getId());
+    }
+
+    @Override
+    public int problemsResolved() {
+        return solutionRepository.countDistinctProblemsByResolved(true);
+    }
+
+    @Override
+    public int userProblemsResolved(Long userId) {
+        return solutionRepository.countDistinctProblemsByResolvedAndCreator(true, userId);
+    }
+
+    @Override
+    public int userSubmitting() {
+        return solutionRepository.countDistinctCreators();
     }
 }

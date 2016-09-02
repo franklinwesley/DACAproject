@@ -2,37 +2,46 @@ package com.ufcg.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
 
 @Entity
 public class Solution implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
     private String code;
 
     @ManyToOne
-    //JoinColum nome da coluna
     private Problem problem;
 
-    @ElementCollection(fetch=FetchType.LAZY)
-    @MapKeyColumn(name = "KEY")
-    @Column(name = "VALUE")
-    private Map<String,String> inputsOutputs;
+    @ManyToOne
+    private User creator;
+
+    @OneToMany
+    private List<Test> inputsOutputs;
+
+    @Column(nullable = false)
+    private boolean resolved;
 
     private Solution() {}
 
-    public Solution(String code, Problem problem, Map<String,String> inputsOutputs) {
+    public Solution(User creator, String code, Problem problem, List<Test> inputsOutputs) {
+        this.creator = creator;
         this.code = code;
         this.inputsOutputs = inputsOutputs;
         this.problem = problem;
+        testSolution(problem.getTests());
     }
 
     public Long getId() {
         return id;
+    }
+
+    public User getCreator() {
+        return creator;
     }
 
     public String getCode() {
@@ -47,12 +56,20 @@ public class Solution implements Serializable {
         return problem;
     }
 
-    public Map<String, String> getInputsOutputs() {
+    public List<Test> getInputsOutputs() {
         return inputsOutputs;
     }
 
-    public void setInputsOutputs(Map<String, String> inputsOutputs) {
+    public void setInputsOutputs(List<Test> inputsOutputs) {
         this.inputsOutputs = inputsOutputs;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    private void testSolution(List<Test> problemTests) {
+        this.resolved = problemTests.equals(this.inputsOutputs);
     }
 
     @Override
@@ -61,6 +78,7 @@ public class Solution implements Serializable {
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", problem=" + problem +
+                ", creator=" + creator +
                 ", inputsOutputs=" + inputsOutputs +
                 '}';
     }
