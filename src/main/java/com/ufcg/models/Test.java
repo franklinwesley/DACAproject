@@ -30,8 +30,7 @@ public class Test implements Serializable{
 
     public Test() {}
 
-    public Test(Long id, String name, String tip, String input, String output, Visibility type) {
-        this.id = id;
+    public Test(String name, String tip, String input, String output, Visibility type) {
         this.name = name;
         this.tip = tip;
         this.input = input;
@@ -81,6 +80,25 @@ public class Test implements Serializable{
 
     public void setInput(String input) {
         this.input = input;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Test test = (Test) o;
+
+        if (input != null ? !input.equals(test.input) : test.input != null) return false;
+        return output != null ? output.equals(test.output) : test.output == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = input != null ? input.hashCode() : 0;
+        result = 31 * result + (output != null ? output.hashCode() : 0);
+        return result;
     }
 
     @Override

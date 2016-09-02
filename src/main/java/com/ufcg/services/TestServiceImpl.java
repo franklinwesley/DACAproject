@@ -1,7 +1,7 @@
 package com.ufcg.services;
 
 import com.ufcg.models.Test;
-import com.ufcg.repositories.TestRepository;
+import com.ufcg.repositories.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,37 +13,38 @@ import java.util.List;
 public class TestServiceImpl implements TestService {
 
     @Autowired
-    TestRepository testRepository;
+    ProblemRepository problemRepository;
 
     @Override
     public Test findById(Long problemId, Long id) {
-        return testRepository.findOne(id);
+        return problemRepository.findOneTest(problemId, id);
     }
 
     @Override
     public void createTest(Long problemId, Test test) {
-        testRepository.save(test);
+//        problemRepository.save(problemId, test);
     }
 
     @Override
     public void updateTest(Long problemId, Test test) {
         if (isTestExist(problemId, test)) {
-            testRepository.save(test);
+//            problemRepository.save(problemId, test);
         }
     }
 
     @Override
     public void deleteTest(Long problemId, Test test) {
-        testRepository.delete(test);
+//        problemRepository.delete(problemId, test);
     }
 
     @Override
     public List<Test> findAllTestsOfProblem(Long problemId) {
-        return testRepository.findAll();
+        return problemRepository.findAllTests(problemId);
     }
 
     @Override
     public boolean isTestExist(Long problemId, Test test) {
-        return testRepository.exists(test.getId());
+//        return problemRepository.exists(problemId,test.getId());
+        return true;
     }
 }

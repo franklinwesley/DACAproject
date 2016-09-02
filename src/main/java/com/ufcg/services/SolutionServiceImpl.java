@@ -1,47 +1,64 @@
 package com.ufcg.services;
 
 import com.ufcg.models.Solution;
+import com.ufcg.repositories.SolutionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service("solutionService")
 @Transactional
 public class SolutionServiceImpl implements SolutionService {
+
+    @Autowired
+    SolutionRepository solutionRepository;
+
     @Override
     public Solution findById(Long id) {
-        return new Solution(id, "code", id, new HashMap<>());
+        return solutionRepository.findOne(id);
     }
 
     @Override
     public void createSolution(Solution solution) {
-
+        solutionRepository.save(solution);
     }
 
     @Override
     public void updateSolution(Solution solution) {
-
+        if (isSolutionExist(solution)) {
+            solutionRepository.save(solution);
+        }
     }
 
     @Override
     public void deleteSolution(Solution solution) {
-
+        solutionRepository.delete(solution);
     }
 
     @Override
     public List<Solution> findAllSolutionsOfProblem(Long problemId) {
-        List<Solution> solutions = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            solutions.add(new Solution((long) i, "code", (long) i, new HashMap<>()));
-        }
-        return solutions;
+        return solutionRepository.findAll();
     }
 
     @Override
     public boolean isSolutionExist(Solution solution) {
-        return false;
+        return solutionRepository.exists(solution.getId());
+    }
+
+    @Override
+    public int problemsResolved() {
+        return solutionRepository.countDistinctProblemsByResolved(true);
+    }
+
+    @Override
+    public int userProblemsResolved(Long userId) {
+        return solutionRepository.countDistinctProblemsByResolvedAndCreator(true, userId);
+    }
+
+    @Override
+    public int userSubmitting() {
+        return solutionRepository.countDistinctCreators();
     }
 }

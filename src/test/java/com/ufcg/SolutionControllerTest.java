@@ -1,7 +1,9 @@
 package com.ufcg;
 
 import com.jayway.restassured.http.ContentType;
+import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
+import com.ufcg.models.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,8 +51,7 @@ public class SolutionControllerTest {
 
     @Test
     public void testCreateSolution() throws Exception {
-        Map<String, String> inputs = new HashMap<>();
-        Solution solution = new Solution(11L, "2202", 10L, inputs);
+        Solution solution = new Solution(new User(), "2202", new Problem(), new ArrayList<>());
 
         given()
                 .accept(ContentType.JSON)
@@ -64,8 +66,7 @@ public class SolutionControllerTest {
 
     @Test
     public void testUpdateSolution() throws Exception {
-        Map<String, String> inputs = new HashMap<>();
-        Solution solution = new Solution(11L, "2202", 10L, inputs);
+        Solution solution = new Solution(new User(), "2202", new Problem(), new ArrayList<>());
         int id = 11;
 
         given()
