@@ -1,7 +1,9 @@
 package com.ufcg.controllers;
 
+import com.google.gson.Gson;
 import com.ufcg.models.User;
 import com.ufcg.services.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,11 +41,14 @@ public class UserController {
     @RequestMapping(value="", method= RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody User user,
                                            UriComponentsBuilder ucBuilder){
-        if (userService.isUserExist(user)) {
+
+        User currentUser = new User(user.getEmail(), user.getPassword(), user.getType());
+
+        if (userService.findByEmail(currentUser)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        userService.createUser(user);
+        userService.createUser(currentUser);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
