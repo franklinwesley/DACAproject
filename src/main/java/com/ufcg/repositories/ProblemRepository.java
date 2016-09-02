@@ -22,5 +22,9 @@ public interface ProblemRepository extends PagingAndSortingRepository<Problem,Lo
     @Query("select t from Problem p,Test t where p.id=?1")
     List<Test> findAllTests(Long problemId);
 
+    @Query("select case when count(t) > 0 then 'true' else 'false' end from Problem p,Test t where p.id = ?1 and t.id=?2")
+    boolean existsTest(Long problemId, Long testId);
 
+//    @Query("delete p.tests from Problem p,Test t where p.id-?1 and t.id=?2")
+//    void deleteTest(Long problemId, Long testId);
 }

@@ -25,7 +25,7 @@ public class Problem implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private List<Test> tests;
 
     @Column

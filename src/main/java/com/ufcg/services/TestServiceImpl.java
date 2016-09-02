@@ -34,7 +34,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void deleteTest(Long problemId, Test test) {
-//        problemRepository.delete(problemId, test);
+//        problemRepository.deleteTest(problemId, test);
     }
 
     @Override
@@ -44,7 +44,10 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public boolean isTestExist(Long problemId, Test test) {
-//        return problemRepository.exists(problemId,test.getId());
-        return true;
+        boolean result = false;
+        if (problemRepository.exists(problemId)) {
+            result = problemRepository.existsTest(problemId,test.getId());
+        }
+        return result;
     }
 }
