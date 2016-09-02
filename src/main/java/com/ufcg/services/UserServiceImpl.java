@@ -2,6 +2,7 @@ package com.ufcg.services;
 
 import com.ufcg.models.User;
 import com.ufcg.repositories.UserRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUserExist(User user) {
         return userRepository.exists(user.getId());
+    }
+
+    @Override
+    public boolean findByEmail(User currentUser) {
+        return userRepository.findByEmail(currentUser.getEmail()) != null;
     }
 }

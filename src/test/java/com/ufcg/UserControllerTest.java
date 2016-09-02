@@ -1,14 +1,26 @@
 package com.ufcg;
 
+import com.google.gson.Gson;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import com.ufcg.repositories.UserRepository;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPatch;
+import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -21,53 +33,85 @@ public class UserControllerTest {
     @Value("${local.server.port}")
     private int port;
     private String route = "/user";
+    private UserRepository userRepository;
+
+    private User user1, user2, user3;
+
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(),
+            Charset.forName("utf8"));
+
+    @Autowired
+    public void setProductRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Before
+    public void setup(){
+
+        userRepository.deleteAll();
+
+        user1 = new User("user1@gmail.com", "12919121", UserType.NORMAL);
+        user2 = new User("user2@gmail.com", "aposm212om", UserType.ADMINISTRATOR);
+        user3 = new User("user3@gmail.com", "210eo01e", UserType.NORMAL);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+    }
 
     @Test
     public void testGetUsers() throws Exception {
         given()
                 .when()
-                .port(this.port)
-                .get(route)
-                .then().assertThat()
-                .statusCode(is(200));
+                    .port(this.port)
+                    .get(route)
+                .then()
+                    .assertThat()
+                        .statusCode(HttpStatus.SC_OK)
+                        .body("email", Matchers.hasItems(user1.getEmail(), user2.getEmail(), user3.getEmail()));
     }
 
     @Test
     public void testGetUserById() throws Exception {
         given()
                 .when()
-                .port(this.port)
-                .get(route +"/" + 1191)
-                .then().assertThat()
-                .statusCode(404);
+                    .port(this.port)
+                    .get(route + "/{id}", user1.getId())
+                .then()
+                    .assertThat()
+                        .statusCode(HttpStatus.SC_OK)
+                        .body("email", Matchers.is(user1.getEmail()))
+                        .body("id", is(user1.getId().intValue()));
     }
 
     @Test
     public void testCreateUser() throws Exception {
-        User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
+        Gson gson = new Gson();
+        User user5 = new User("user5@gmail.com", "12j1oi2jow", UserType.NORMAL);
+
+        System.out.println(user5.toString());
 
         given()
-                .accept(ContentType.JSON)
-                .body(user)
+                .contentType(ContentType.JSON)
+                .body(gson.toJson(user5))
                 .when()
-                .port(this.port)
-                .post(route)
-                .then()
-                .assertThat().statusCode(415);
+                    .port(this.port)
+                    .post(route)
+                .then().assertThat()
+                    .statusCode(HttpStatus.SC_CREATED);
     }
 
     @Test
     public void testUpdateUser() throws Exception {
-        User user = new User("email@example.com", "password", UserType.ADMINISTRATOR);
-
+        user1.setEmail(user2.getEmail());
         given()
-                .accept(ContentType.JSON)
-                .body(user)
+                .contentType(ContentType.JSON)
+                .body(user1)
                 .when()
                 .port(this.port)
-                .put(route + "/" + user.getId())
+                .put(route + "/{id}", user1.getId())
                 .then()
-                .assertThat().statusCode(400);
+                .assertThat().statusCode(HttpStatus.SC_OK);
     }
 
     @Test
@@ -75,8 +119,8 @@ public class UserControllerTest {
         given()
                 .when()
                 .port(this.port)
-                .delete(route + "/" + 121213)
+                .delete(route + "/{id}",user1.getId())
                 .then()
-                .assertThat().statusCode(404);
+                .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
     }
 }

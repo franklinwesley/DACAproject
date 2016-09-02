@@ -1,5 +1,6 @@
 package com.ufcg.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufcg.Utils.UserType;
 
 import javax.persistence.*;
@@ -34,12 +35,12 @@ public class User implements Serializable{
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getPassword() {
         return password;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
@@ -61,8 +62,7 @@ public class User implements Serializable{
     @Override
     public String toString() {
         return "User{" +
-                "password='" + password + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", id=" + id +
                 ", type=" + type +
                 '}';
