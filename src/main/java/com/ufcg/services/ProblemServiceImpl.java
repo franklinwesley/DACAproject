@@ -40,9 +40,8 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public Page<Problem> findAllProblems(int page, int size, String sort, Long user) {
+    public Page<Problem> findAllProblems(int page, int size, String sort) {
         return problemRepository.findAll(new PageRequest(page, size, new Sort(sort)));
-        //TODO problemas resolvidos pelo usuário
     }
 
     @Override

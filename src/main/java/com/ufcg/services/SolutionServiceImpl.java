@@ -1,5 +1,6 @@
 package com.ufcg.services;
 
+import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
 import com.ufcg.repositories.SolutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,12 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public boolean isSolutionExist(Solution solution) {
-        return solutionRepository.exists(solution.getId());
+        return solutionRepository.existsByCode(solution.getCode());
+    }
+
+    @Override
+    public List<Problem> userProblemsResolved(Long userId) {
+        return solutionRepository.userProblemsResolved(true, userId);
     }
 
     @Override
@@ -53,7 +59,7 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @Override
-    public int userProblemsResolved(Long userId) {
+    public int userProblemsResolvedNumber(Long userId) {
         return solutionRepository.countDistinctProblemsByResolvedAndCreator(true, userId);
     }
 

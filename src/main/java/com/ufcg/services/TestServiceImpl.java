@@ -28,7 +28,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public void updateTest(Long problemId, Test test) {
         if (isTestExist(problemId, test)) {
-//            problemRepository.save(problemId, test);
+//            problemRepository.updateTest(problemId, test);
         }
     }
 
