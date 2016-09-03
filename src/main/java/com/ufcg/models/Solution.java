@@ -21,8 +21,8 @@ public class Solution implements Serializable {
     @ManyToOne
     private User creator;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private List<Test> inputsOutputs;
+    @OneToMany
+    private List<OutputSolution> inputsOutputs;
 
     @Column(nullable = false)
     private boolean resolvedProblem;
@@ -35,7 +35,7 @@ public class Solution implements Serializable {
         this.testsFail = new ArrayList<>();
     }
 
-    public Solution(User creator, String code, Problem problem, List<Test> inputsOutputs) {
+    public Solution(User creator, String code, Problem problem, List<OutputSolution> inputsOutputs) {
         this();
         this.creator = creator;
         this.code = code;
@@ -63,11 +63,11 @@ public class Solution implements Serializable {
         return problem;
     }
 
-    public List<Test> getInputsOutputs() {
+    public List<OutputSolution> getInputsOutputs() {
         return inputsOutputs;
     }
 
-    public void setInputsOutputs(List<Test> inputsOutputs) {
+    public void setInputsOutputs(List<OutputSolution> inputsOutputs) {
         this.inputsOutputs = inputsOutputs;
     }
 
@@ -90,8 +90,9 @@ public class Solution implements Serializable {
     public List<Test> testSolution() {
         List<Test> result = new ArrayList<>();
         for (Test problemTest : this.problem.getTests()) {
-            for (Test inputOutput : this.inputsOutputs) {
-                if (!problemTest.equals(inputOutput)) {
+            for (OutputSolution inputOutput : this.inputsOutputs) {
+                if (problemTest.getInput().equals(inputOutput.getInput()) &&
+                        !problemTest.getOutput().equals(inputOutput.getOutput())) {
                     result.add(problemTest);
                 }
             }

@@ -41,7 +41,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Page<Problem> findAllProblems(int page, int size, String sort) {
-        return problemRepository.findAll(new PageRequest(page, size, new Sort(sort)));
+        return problemRepository.findAll(new PageRequest(page-1, size, new Sort(sort)));
     }
 
     @Override

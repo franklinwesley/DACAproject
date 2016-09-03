@@ -19,19 +19,9 @@ public class TestController {
     @Autowired
     TestService testService;
 
-    @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<List<Test>> getTests(@PathVariable("problemId") Long problemId){
-        List<Test> tests = testService.findAllTestsOfProblem(problemId);
-        if(tests.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(tests, HttpStatus.OK);
-    }
-
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Test> getTest(@PathVariable("problemId") Long problemId,
-                                        @PathVariable("id") Long testId){
-        Test test = testService.findById(problemId,testId);
+    public ResponseEntity<Test> getTest(@PathVariable("id") Long testId){
+        Test test = testService.findById(testId);
         if(test == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -57,7 +47,7 @@ public class TestController {
     public ResponseEntity<Test> updateTest(@PathVariable("problemId") Long problemId,
                                            @PathVariable("id") Long testId,
                                            @RequestBody Test test){
-        Test currentTest = testService.findById(problemId,testId);
+        Test currentTest = testService.findById(testId);
         if (currentTest == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -73,14 +63,13 @@ public class TestController {
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.DELETE)
-    public ResponseEntity<Test> deleteTest(@PathVariable("problemId") Long problemId,
-                                           @PathVariable("id") Long testId){
-        Test test = testService.findById(problemId,testId);
+    public ResponseEntity<Test> deleteTest(@PathVariable("id") Long testId){
+        Test test = testService.findById(testId);
         if (test == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        testService.deleteTest(problemId,test);
+        testService.deleteTest(test);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

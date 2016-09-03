@@ -3,6 +3,7 @@ package com.ufcg.controllers;
 import com.ufcg.models.Problem;
 import com.ufcg.services.ProblemService;
 import com.ufcg.services.SolutionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class ProblemController {
                                       @RequestParam(value = "user", required = false) Long user){
         //TODO token?
         Page<Problem> problems = problemService.findAllProblems(page,size,sort);
-        if(problems.getNumber() == 0){
+        if(problems.getNumberOfElements() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         if (user != null) {
@@ -54,10 +55,6 @@ public class ProblemController {
 
     @RequestMapping(value="", method= RequestMethod.POST)
     public ResponseEntity<Void> createProblem(@RequestBody Problem problem, UriComponentsBuilder ucBuilder){
-        if (problemService.isProblemExist(problem)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
         problemService.createProblem(problem);
 
         HttpHeaders headers = new HttpHeaders();

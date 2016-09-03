@@ -43,16 +43,13 @@ public class SolutionController {
         if (solutionService.isSolutionExist(solution)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        System.out.println("oi");
-        Logger log = Logger.getLogger(SolutionController.class);
+
         List<Test> testsFail = solution.testSolution();
-        log.info("Solution Tests Fail - " + testsFail.size());
         if (testsFail.isEmpty()) {
             solution.setResolvedProblem(true);
         } else {
             solution.setTestsFail(testsFail);
         }
-        log.info("Solution Tests Fail - " + solution.getTestsFail());
         solutionService.createSolution(solution);
 
         return new ResponseEntity<>(solution, HttpStatus.CREATED);
