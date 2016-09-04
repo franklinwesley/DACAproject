@@ -28,9 +28,6 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public void createSolution(Solution solution) {
-        for (OutputSolution outputSolution : solution.getInputsOutputs()) {
-            outputSolutionRepository.save(outputSolution);
-        }
         solutionRepository.save(solution);
     }
 

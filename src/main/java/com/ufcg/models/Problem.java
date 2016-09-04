@@ -25,7 +25,7 @@ public class Problem implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Test> tests;
 
     @Column

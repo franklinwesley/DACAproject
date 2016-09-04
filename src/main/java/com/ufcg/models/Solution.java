@@ -21,7 +21,7 @@ public class Solution implements Serializable {
     @ManyToOne
     private User creator;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OutputSolution> inputsOutputs;
 
     @Column(nullable = false)

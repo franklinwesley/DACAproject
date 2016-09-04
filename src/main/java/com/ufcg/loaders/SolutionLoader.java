@@ -47,8 +47,6 @@ public class SolutionLoader implements ApplicationListener<ContextRefreshedEvent
         log.info("Saved user - id:" + franklin.getId());
 
         Test problemTest = new Test("problemTest", "Use Scanner object", "oi", "oi", Visibility.PUBLIC);
-        testRepository.save(problemTest);
-        log.info("Saved test - id:" + problemTest.getId());
         List<Test> problemtests = new ArrayList<>();
         problemtests.add(problemTest);
 
@@ -57,8 +55,6 @@ public class SolutionLoader implements ApplicationListener<ContextRefreshedEvent
         log.info("Saved problem - id:" + problem.getId());
 
         OutputSolution solutionTest = new OutputSolution("oi", "ei");
-        outputSolutionRepository.save(solutionTest);
-        log.info("Saved test - id:" + solutionTest.getId());
         List<OutputSolution> solutiontests = new ArrayList<>();
         solutiontests.add(solutionTest);
 

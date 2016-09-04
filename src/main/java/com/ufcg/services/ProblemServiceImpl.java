@@ -2,6 +2,7 @@ package com.ufcg.services;
 
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.Test;
 import com.ufcg.repositories.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,9 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
     ProblemRepository problemRepository;
+
+    @Autowired
+    TestService testService;
 
     @Override
     public Problem findById(Long id) {
@@ -50,6 +54,11 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public boolean isProblemExist(Long problemId) {
+        return problemRepository.exists(problemId);
+    }
+
+    @Override
     public boolean publishProblem(Problem problem) {
         boolean result = false;
         int updateType = problemRepository.updateType(problem.getId(), Visibility.PUBLIC);
@@ -57,5 +66,12 @@ public class ProblemServiceImpl implements ProblemService {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public void addTestInProblem(Long problemId, Test test) {
+        Problem problem = findById(problemId);
+        problem.getTests().add(test);
+        updateProblem(problem);
     }
 }

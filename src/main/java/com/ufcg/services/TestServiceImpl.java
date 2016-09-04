@@ -17,7 +17,7 @@ public class TestServiceImpl implements TestService {
     TestRepository testRepository;
 
     @Autowired
-    ProblemRepository problemRepository;
+    ProblemService problemService;
 
     @Override
     public Test findById(Long id) {
@@ -25,8 +25,14 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public void createTest(Test test) {
+        testRepository.save(test);
+    }
+
+    @Override
     public void createTest(Long problemId, Test test) {
-//        testRepository.save(problemId, test);
+        createTest(test);
+        problemService.addTestInProblem(problemId, test);
     }
 
     @Override
@@ -38,13 +44,13 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void deleteTest(Test test) {
-//        testRepository.deleteTest(problemId, test);
+        testRepository.delete(test);
     }
 
     @Override
     public boolean isTestExist(Long problemId, Test test) {
         boolean result = false;
-        if (problemRepository.exists(problemId)) {
+        if (problemService.isProblemExist(problemId)) {
             result = testRepository.exists(test.getId());
         }
         return result;
