@@ -11,5 +11,5 @@ public interface TestService {
     void updateTest(Long problemId, Test test);
     void deleteTest(Long problemId, Test test);
     List<Test> findAllTestsOfProblem(Long problemId);
-    boolean isTestExist(Long problemId, Test test);
+    boolean isProblemExist(Long problemId);
 }

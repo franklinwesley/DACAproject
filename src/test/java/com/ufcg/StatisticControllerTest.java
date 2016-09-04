@@ -1,5 +1,7 @@
 package com.ufcg;
 
+import org.apache.http.HttpStatus;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,18 +19,32 @@ public class StatisticControllerTest {
 
     @Value("${local.server.port}")
     private int port;
-    private String route = "/";
+    private String route = "/statistic";
 
     @Test
-    public void testGetSolutions() throws Exception {
-        int id = 1;
+    public void testGetStatisticsWithoutUserId() throws Exception {
         given()
-                .param("userId", id)
+                .when()
+                    .port(this.port)
+                    .get(route)
+                .then().assertThat()
+                    .statusCode(HttpStatus.SC_OK)
+                    .body("problemsResolved", Matchers.equalTo(0))
+                    .body("usersSubmittingProblems", Matchers.equalTo(0));
+    }
+
+    @Test
+    public void testGetStatisticsWithUserId() throws Exception {
+        given()
+                .param("userId", 1)
                 .when()
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(200));
+                .statusCode(HttpStatus.SC_OK)
+                .body("problemsResolved", Matchers.equalTo(0))
+                .body("usersSubmittingProblems", Matchers.equalTo(0))
+                .body("userResolvedProblems", Matchers.equalTo(0));
     }
 
 }
