@@ -1,9 +1,7 @@
 package com.ufcg.services;
 
-import com.ufcg.models.OutputSolution;
 import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
-import com.ufcg.repositories.OutputSolutionRepository;
 import com.ufcg.repositories.SolutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,6 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Autowired
     SolutionRepository solutionRepository;
-
-    @Autowired
-    OutputSolutionRepository outputSolutionRepository;
 
     @Override
     public Solution findById(Long id) {

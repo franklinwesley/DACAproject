@@ -18,9 +18,6 @@ public class ProblemServiceImpl implements ProblemService {
     @Autowired
     ProblemRepository problemRepository;
 
-    @Autowired
-    TestService testService;
-
     @Override
     public Problem findById(Long id) {
         return problemRepository.findOne(id);
