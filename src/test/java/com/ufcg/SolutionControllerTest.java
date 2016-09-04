@@ -1,9 +1,12 @@
 package com.ufcg;
 
 import com.jayway.restassured.http.ContentType;
+import com.ufcg.Utils.UserType;
+import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
 import com.ufcg.models.User;
+import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -35,7 +39,7 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .get(route)
                 .then().assertThat()
-                .statusCode(is(200));
+                .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     @Test
@@ -46,12 +50,23 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .get(route +"/" + id)
                 .then().assertThat()
-                .statusCode(200);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
     public void testCreateSolution() throws Exception {
-        Solution solution = new Solution(new User(), "2202", new Problem(), new ArrayList<>());
+
+        List<com.ufcg.models.Test> testList = new ArrayList<>();
+
+        com.ufcg.models.Test test = new com.ufcg.models.Test("name", "tip", "", "", Visibility.PRIVATE);
+        User userCreator = new User("usercreator@gmail.com", "1oi2io1n", UserType.ADMINISTRATOR);
+
+        testList.add(test);
+
+        Problem problem = new Problem(userCreator, "Problem 1", "Problem about the problems", "Good tip",testList,Visibility.PUBLIC);
+
+
+        Solution solution = new Solution(new User(), "2202", problem, testList);
 
         given()
                 .accept(ContentType.JSON)
@@ -66,18 +81,27 @@ public class SolutionControllerTest {
 
     @Test
     public void testUpdateSolution() throws Exception {
-        Solution solution = new Solution(new User(), "2202", new Problem(), new ArrayList<>());
+
+        List<com.ufcg.models.Test> testList = new ArrayList<>();
+
+        com.ufcg.models.Test test = new com.ufcg.models.Test("name", "tip", "", "", Visibility.PRIVATE);
+        User userCreator = new User("usercreator@gmail.com", "1oi2io1n", UserType.ADMINISTRATOR);
+
+        testList.add(test);
+
+        Problem problem = new Problem(userCreator, "Problem 1", "Problem about the problems", "Good tip",testList,Visibility.PUBLIC);
+        Solution solution = new Solution(new User(), "2202", problem, testList);
         int id = 11;
 
         given()
-                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
                 .body(solution)
                 .when()
                 .port(this.port)
                 .put(route + "/" + id)
                 .then()
                 .assertThat()
-                .statusCode(415);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
@@ -88,6 +112,6 @@ public class SolutionControllerTest {
                 .port(this.port)
                 .delete(route + "/" + id)
                 .then()
-                .assertThat().statusCode(204);
+                .assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }

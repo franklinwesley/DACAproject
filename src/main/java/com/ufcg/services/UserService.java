@@ -12,4 +12,6 @@ public interface UserService {
     void deleteUser(User user);
     List<User> findAllUser();
     boolean isUserExist(User user);
+
+    boolean findByEmail(User currentUser);
 }

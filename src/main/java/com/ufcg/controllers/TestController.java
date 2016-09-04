@@ -32,8 +32,8 @@ public class TestController {
     public ResponseEntity<Void> createTest(@PathVariable("problemId") Long problemId,
                                            @RequestBody Test test,
                                            UriComponentsBuilder ucBuilder){
-        if (testService.isTestExist(problemId,test)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if (!testService.isProblemExist(problemId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         testService.createTest(problemId,test);
