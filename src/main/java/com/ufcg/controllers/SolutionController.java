@@ -1,7 +1,9 @@
 package com.ufcg.controllers;
 
 import com.ufcg.models.Solution;
+import com.ufcg.models.Test;
 import com.ufcg.services.SolutionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,17 +39,20 @@ public class SolutionController {
     }
 
     @RequestMapping(value="", method= RequestMethod.POST)
-    public ResponseEntity<Void> createSolution(@RequestBody Solution solution,
-                                               UriComponentsBuilder ucBuilder){
+    public ResponseEntity<Solution> createSolution(@RequestBody Solution solution){
         if (solutionService.isSolutionExist(solution)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
+        List<Test> testsFail = solution.testSolution();
+        if (testsFail.isEmpty()) {
+            solution.setResolvedProblem(true);
+        } else {
+            solution.setTestsFail(testsFail);
+        }
         solutionService.createSolution(solution);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/solution/{id}").buildAndExpand(solution.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(solution, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)

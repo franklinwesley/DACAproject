@@ -2,6 +2,7 @@ package com.ufcg.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,20 +21,26 @@ public class Solution implements Serializable {
     @ManyToOne
     private User creator;
 
-    @OneToMany
-    private List<Test> inputsOutputs;
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<OutputSolution> inputsOutputs;
 
     @Column(nullable = false)
-    private boolean resolved;
+    private boolean resolvedProblem;
 
-    private Solution() {}
+    @Transient
+    private List<Test> testsFail;
 
-    public Solution(User creator, String code, Problem problem, List<Test> inputsOutputs) {
+    private Solution() {
+        this.resolvedProblem = false;
+        this.testsFail = new ArrayList<>();
+    }
+
+    public Solution(User creator, String code, Problem problem, List<OutputSolution> inputsOutputs) {
+        this();
         this.creator = creator;
         this.code = code;
         this.inputsOutputs = inputsOutputs;
         this.problem = problem;
-        testSolution(problem.getTests());
     }
 
     public Long getId() {
@@ -56,20 +63,41 @@ public class Solution implements Serializable {
         return problem;
     }
 
-    public List<Test> getInputsOutputs() {
+    public List<OutputSolution> getInputsOutputs() {
         return inputsOutputs;
     }
 
-    public void setInputsOutputs(List<Test> inputsOutputs) {
+    public void setInputsOutputs(List<OutputSolution> inputsOutputs) {
         this.inputsOutputs = inputsOutputs;
     }
 
-    public boolean isResolved() {
-        return resolved;
+    public boolean isResolvedProblem() {
+        return resolvedProblem;
     }
 
-    private void testSolution(List<Test> problemTests) {
-        this.resolved = problemTests.equals(this.inputsOutputs);
+    public void setResolvedProblem(boolean resolvedProblem) {
+        this.resolvedProblem = resolvedProblem;
+    }
+
+    public List<Test> getTestsFail() {
+        return testsFail;
+    }
+
+    public void setTestsFail(List<Test> testsFail) {
+        this.testsFail = testsFail;
+    }
+
+    public List<Test> testSolution() {
+        List<Test> result = new ArrayList<>();
+        for (Test problemTest : this.problem.getTests()) {
+            for (OutputSolution inputOutput : this.inputsOutputs) {
+                if (problemTest.getInput().equals(inputOutput.getInput()) &&
+                        !problemTest.getOutput().equals(inputOutput.getOutput())) {
+                    result.add(problemTest);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

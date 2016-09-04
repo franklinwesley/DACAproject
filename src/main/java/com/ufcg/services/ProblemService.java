@@ -1,6 +1,7 @@
 package com.ufcg.services;
 
 import com.ufcg.models.Problem;
+import com.ufcg.models.Test;
 import org.springframework.data.domain.Page;
 
 public interface ProblemService {
@@ -9,7 +10,9 @@ public interface ProblemService {
     void createProblem(Problem problem);
     void updateProblem(Problem problem);
     void deleteProblem(Problem problem);
-    Page<Problem> findAllProblems(int page, int size, String sort, Long user);
+    Page<Problem> findAllProblems(int page, int size, String sort);
     boolean isProblemExist(Problem problem);
+    boolean isProblemExist(Long problemId);
     boolean publishProblem(Problem problem);
+    void addTestInProblem(Long problemId, Test test);
 }

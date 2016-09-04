@@ -25,16 +25,22 @@ public class Problem implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Test> tests;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
-    public Problem() {}
+    @Transient
+    private boolean resolved;
+
+    public Problem() {
+        this.resolved = false;
+    }
 
     public Problem(User creator, String name, String description, String tip, List<Test> tests, Visibility type) {
+        this();
         this.name = name;
         this.creator = creator;
         this.description = description;
@@ -91,6 +97,14 @@ public class Problem implements Serializable{
         this.type = type;
     }
 
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
+
     @Override
     public String toString() {
         return "Problem{" +
@@ -101,6 +115,7 @@ public class Problem implements Serializable{
                 ", tip='" + tip + '\'' +
                 ", tests=" + tests +
                 ", type=" + type +
+                ", resolved=" + resolved +
                 '}';
     }
 }

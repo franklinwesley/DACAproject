@@ -15,12 +15,4 @@ public interface ProblemRepository extends PagingAndSortingRepository<Problem,Lo
 
     @Query("update Problem p set p.type=?2 where p.id=?1")
     int updateType(Long problemId, Visibility type);
-
-    @Query("select t from Problem p,Test t where p.id=?1 and t.id=?2")
-    Test findOneTest(Long problemId, Long testId);
-
-    @Query("select t from Problem p,Test t where p.id=?1")
-    List<Test> findAllTests(Long problemId);
-
-
 }

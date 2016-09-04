@@ -2,14 +2,17 @@ package com.ufcg.controllers;
 
 import com.ufcg.models.Problem;
 import com.ufcg.services.ProblemService;
+import com.ufcg.services.SolutionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/problem")
@@ -18,15 +21,25 @@ public class ProblemController {
     @Autowired
     ProblemService problemService;
 
+    @Autowired
+    SolutionService solutionService;
+
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity getProblems(@RequestParam(value = "page", defaultValue = "1") int page,
                                       @RequestParam(value = "size", defaultValue = "100") int size,
                                       @RequestParam(value = "sort", defaultValue = "date") String sort,
                                       @RequestParam(value = "user", required = false) Long user){
         //TODO token?
-        Page<Problem> problems = problemService.findAllProblems(page,size,sort,user);
-        if(problems.getNumber() == 0){
+        Page<Problem> problems = problemService.findAllProblems(page,size,sort);
+        if(problems.getNumberOfElements() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        if (user != null) {
+            List<Problem> problemsResolved = solutionService.userProblemsResolved(user);
+            for (Problem problemResolved: problemsResolved) {
+                int index = problems.getContent().indexOf(problemResolved);
+                problems.getContent().get(index).setResolved(true);
+            }
         }
         return new ResponseEntity<>(problems, HttpStatus.OK);
     }
@@ -42,10 +55,6 @@ public class ProblemController {
 
     @RequestMapping(value="", method= RequestMethod.POST)
     public ResponseEntity<Void> createProblem(@RequestBody Problem problem, UriComponentsBuilder ucBuilder){
-        if (problemService.isProblemExist(problem)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
         problemService.createProblem(problem);
 
         HttpHeaders headers = new HttpHeaders();

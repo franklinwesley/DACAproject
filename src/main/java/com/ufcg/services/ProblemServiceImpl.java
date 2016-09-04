@@ -2,6 +2,7 @@ package com.ufcg.services;
 
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.Test;
 import com.ufcg.repositories.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,14 +41,18 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public Page<Problem> findAllProblems(int page, int size, String sort, Long user) {
-        return problemRepository.findAll(new PageRequest(page, size, new Sort(sort)));
-        //TODO problemas resolvidos pelo usuário
+    public Page<Problem> findAllProblems(int page, int size, String sort) {
+        return problemRepository.findAll(new PageRequest(page-1, size, new Sort(sort)));
     }
 
     @Override
     public boolean isProblemExist(Problem problem) {
         return problemRepository.exists(problem.getId());
+    }
+
+    @Override
+    public boolean isProblemExist(Long problemId) {
+        return problemRepository.exists(problemId);
     }
 
     @Override
@@ -58,5 +63,12 @@ public class ProblemServiceImpl implements ProblemService {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public void addTestInProblem(Long problemId, Test test) {
+        Problem problem = findById(problemId);
+        problem.getTests().add(test);
+        updateProblem(problem);
     }
 }

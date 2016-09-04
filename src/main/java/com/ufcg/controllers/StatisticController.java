@@ -1,5 +1,6 @@
 package com.ufcg.controllers;
 
+import com.ufcg.models.Statistic;
 import com.ufcg.services.SolutionService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,17 @@ public class StatisticController {
     SolutionService solutionService;
 
     @RequestMapping(value="", method= RequestMethod.GET)
-    public ResponseEntity<JSONObject> getStatistics(@RequestParam(value = "userId", required = false) Long userId){
+    public ResponseEntity<Statistic> getStatistics(@RequestParam(value = "userId", required = false) Long userId){
         //TODO token?
         int problemsResolved = solutionService.problemsResolved();
         int usersSubmittingProblems = solutionService.userSubmitting();
 
-        JSONObject response = new JSONObject();
-        response.put("problemsResolved",problemsResolved);
-        response.put("usersSubmittingProblems",usersSubmittingProblems);
+        Statistic statistics = new Statistic(problemsResolved, usersSubmittingProblems);
 
         if(userId != null){
-            int userResolvedProblems = solutionService.userProblemsResolved(userId);
-            response.put("userResolvedProblems",userResolvedProblems);
+            int userResolvedProblems = solutionService.userProblemsResolvedNumber(userId);
+            statistics.setUserResolvedProblems(userResolvedProblems);
         }
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(statistics,HttpStatus.OK);
     }
 }
