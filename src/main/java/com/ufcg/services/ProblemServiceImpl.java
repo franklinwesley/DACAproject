@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
+import java.util.List;
 
 @Service("problemService")
 @Transactional
@@ -74,5 +75,10 @@ public class ProblemServiceImpl implements ProblemService {
             problem.getTests().add(test);
             updateProblem(problem);
         }
+    }
+
+    @Override
+    public List<Test> getTests(Long problemId) {
+        return problemRepository.getTests(problemId);
     }
 }

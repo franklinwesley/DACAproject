@@ -5,7 +5,7 @@ import com.ufcg.Utils.Visibility;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,7 +15,7 @@ public class Problem implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User creator;
 
     @Column(nullable = false)
@@ -34,9 +34,8 @@ public class Problem implements Serializable{
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
-    @Temporal(value=TemporalType.DATE)
-    @JsonFormat(pattern="dd-MM-yyyy")
-    private Calendar date;
+    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss", timezone = "GMT")
+    private LocalDateTime date;
 
     @Transient
     private boolean resolved;
@@ -57,7 +56,7 @@ public class Problem implements Serializable{
 
     @PrePersist
     private void setDate() {
-        this.date = Calendar.getInstance();
+        this.date = LocalDateTime.now();
     }
 
     public String getTip() {
@@ -116,11 +115,11 @@ public class Problem implements Serializable{
         this.resolved = resolved;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

@@ -4,6 +4,8 @@ import com.ufcg.models.Problem;
 import com.ufcg.models.Test;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ProblemService {
 
     Problem findById(Long id);
@@ -15,4 +17,5 @@ public interface ProblemService {
     boolean isProblemExist(Long problemId);
     boolean publishProblem(Problem problem);
     void addTestInProblem(Long problemId, Test test);
+    List<Test> getTests(Long problemId);
 }

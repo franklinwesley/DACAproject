@@ -8,6 +8,7 @@ import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class UserControllerTest {
 
     @Before
     public void setup(){
+        userRepository.deleteAll();
         user1 = new User("user1@gmail.com", "12919121", UserType.NORMAL);
         user2 = new User("user2@gmail.com", "aposm212om", UserType.ADMINISTRATOR);
         user3 = new User("user3@gmail.com", "210eo01e", UserType.NORMAL);

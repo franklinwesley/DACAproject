@@ -9,12 +9,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value="/problem/{problemId}/test")
 public class TestController {
 
     @Autowired
     TestService testService;
+
+    @RequestMapping(value="/", method= RequestMethod.GET)
+    public ResponseEntity<List<Test>> getTests(@PathVariable("problemId") Long problemId){
+        List<Test> test = testService.findByProblemId(problemId);
+        if(test == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(test, HttpStatus.OK);
+    }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ResponseEntity<Test> getTest(@PathVariable("id") Long testId){
