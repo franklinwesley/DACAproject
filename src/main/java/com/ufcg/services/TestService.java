@@ -2,8 +2,6 @@ package com.ufcg.services;
 
 import com.ufcg.models.Test;
 
-import java.util.List;
-
 public interface TestService {
 
     Test findById(Long id);

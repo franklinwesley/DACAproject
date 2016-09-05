@@ -1,9 +1,11 @@
 package com.ufcg.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ufcg.Utils.Visibility;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -32,6 +34,10 @@ public class Problem implements Serializable{
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
 
+    @Temporal(value=TemporalType.DATE)
+    @JsonFormat(pattern="dd-MM-yyyy")
+    private Calendar date;
+
     @Transient
     private boolean resolved;
 
@@ -47,6 +53,11 @@ public class Problem implements Serializable{
         this.tip = tip;
         this.tests = tests;
         this.type = type;
+    }
+
+    @PrePersist
+    private void setDate() {
+        this.date = Calendar.getInstance();
     }
 
     public String getTip() {
@@ -105,6 +116,14 @@ public class Problem implements Serializable{
         this.resolved = resolved;
     }
 
+    public Calendar getDate() {
+        return date;
+    }
+
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "Problem{" +
@@ -115,6 +134,7 @@ public class Problem implements Serializable{
                 ", tip='" + tip + '\'' +
                 ", tests=" + tests +
                 ", type=" + type +
+                ", date=" + date +
                 ", resolved=" + resolved +
                 '}';
     }

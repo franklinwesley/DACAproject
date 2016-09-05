@@ -3,7 +3,6 @@ package com.ufcg.controllers;
 import com.ufcg.models.Problem;
 import com.ufcg.services.ProblemService;
 import com.ufcg.services.SolutionService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;

@@ -1,13 +1,10 @@
 package com.ufcg.services;
 
 import com.ufcg.models.Test;
-import com.ufcg.repositories.ProblemRepository;
 import com.ufcg.repositories.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service("testService")
 @Transactional
@@ -31,7 +28,6 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void createTest(Long problemId, Test test) {
-        createTest(test);
         problemService.addTestInProblem(problemId, test);
     }
 

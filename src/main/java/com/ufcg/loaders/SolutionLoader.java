@@ -11,6 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Component
@@ -51,6 +52,7 @@ public class SolutionLoader implements ApplicationListener<ContextRefreshedEvent
         problemtests.add(problemTest);
 
         Problem problem = new Problem(pablo, "Print input", "Print the program input", "Use Scanner object", problemtests, Visibility.PUBLIC);
+//        problem.setDate(Calendar.getInstance());
         problemRepository.save(problem);
         log.info("Saved problem - id:" + problem.getId());
 

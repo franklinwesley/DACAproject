@@ -3,14 +3,11 @@ package com.ufcg.controllers;
 import com.ufcg.models.Test;
 import com.ufcg.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value="/problem/{problemId}/test")
@@ -32,10 +29,6 @@ public class TestController {
     public ResponseEntity<Void> createTest(@PathVariable("problemId") Long problemId,
                                            @RequestBody Test test,
                                            UriComponentsBuilder ucBuilder){
-        if (!testService.isProblemExist(problemId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         testService.createTest(problemId,test);
 
         HttpHeaders headers = new HttpHeaders();
