@@ -13,6 +13,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ProblemService problemService;
+
+    @Autowired
+    SolutionService solutionService;
+
     @Override
     public User findById(Long id) {
         return userRepository.findOne(id);
@@ -32,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
+        problemService.deleteUserProblems(user.getId());
+        solutionService.deleteUserSolutions(user.getId());
         userRepository.delete(user);
     }
 

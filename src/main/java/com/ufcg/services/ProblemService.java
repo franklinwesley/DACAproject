@@ -18,4 +18,5 @@ public interface ProblemService {
     boolean publishProblem(Problem problem);
     void addTestInProblem(Long problemId, Test test);
     List<Test> getTests(Long problemId);
+    void deleteUserProblems(Long userId);
 }

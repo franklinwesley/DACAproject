@@ -67,4 +67,9 @@ public class SolutionServiceImpl implements SolutionService {
     public int userSubmitting() {
         return solutionRepository.countDistinctCreators();
     }
+
+    @Override
+    public void deleteUserSolutions(Long userId) {
+        solutionRepository.deleteAll(userId);
+    }
 }

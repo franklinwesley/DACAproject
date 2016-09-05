@@ -24,4 +24,7 @@ public interface SolutionRepository extends CrudRepository<Solution,Long> {
 
     @Query("select case when count(s) > 0 then 'true' else 'false' end from Solution s where s.code = ?1")
     boolean existsByCode(String code);
+
+    @Query("delete from Solution s where s.creator.id=?1")
+    void deleteAll(Long userId);
 }

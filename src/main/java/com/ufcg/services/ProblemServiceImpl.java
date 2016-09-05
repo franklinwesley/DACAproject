@@ -81,4 +81,9 @@ public class ProblemServiceImpl implements ProblemService {
     public List<Test> getTests(Long problemId) {
         return problemRepository.getTests(problemId);
     }
+
+    @Override
+    public void deleteUserProblems(Long userId) {
+        problemRepository.deleteAll(userId);
+    }
 }

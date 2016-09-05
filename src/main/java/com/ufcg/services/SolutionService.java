@@ -17,4 +17,5 @@ public interface SolutionService {
     int userProblemsResolvedNumber(Long userId);
     int problemsResolved();
     int userSubmitting();
+    void deleteUserSolutions(Long userId);
 }
