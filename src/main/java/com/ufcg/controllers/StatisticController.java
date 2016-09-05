@@ -2,7 +2,6 @@ package com.ufcg.controllers;
 
 import com.ufcg.models.Statistic;
 import com.ufcg.services.SolutionService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

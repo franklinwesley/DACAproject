@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+
 @Service("problemService")
 @Transactional
 public class ProblemServiceImpl implements ProblemService {
@@ -67,8 +69,10 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public void addTestInProblem(Long problemId, Test test) {
-        Problem problem = findById(problemId);
-        problem.getTests().add(test);
-        updateProblem(problem);
+        if (isProblemExist(problemId)) {
+            Problem problem = findById(problemId);
+            problem.getTests().add(test);
+            updateProblem(problem);
+        }
     }
 }

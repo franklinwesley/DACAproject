@@ -6,7 +6,6 @@ import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPatch;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;

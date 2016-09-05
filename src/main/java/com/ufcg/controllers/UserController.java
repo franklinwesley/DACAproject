@@ -1,9 +1,7 @@
 package com.ufcg.controllers;
 
-import com.google.gson.Gson;
 import com.ufcg.models.User;
 import com.ufcg.services.UserService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

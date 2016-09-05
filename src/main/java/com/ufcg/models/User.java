@@ -1,6 +1,5 @@
 package com.ufcg.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufcg.Utils.UserType;
 
 import javax.persistence.*;

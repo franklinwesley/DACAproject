@@ -3,7 +3,6 @@ package com.ufcg.models;
 import com.ufcg.Utils.Visibility;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 
 @Entity

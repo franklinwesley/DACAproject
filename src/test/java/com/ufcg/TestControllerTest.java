@@ -8,7 +8,6 @@ import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPatch;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")

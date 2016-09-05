@@ -3,6 +3,7 @@ package com.ufcg;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.Utils.Visibility;
+import com.ufcg.models.OutputSolution;
 import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
 import com.ufcg.models.User;
@@ -15,12 +16,9 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
@@ -65,8 +63,11 @@ public class SolutionControllerTest {
 
         Problem problem = new Problem(userCreator, "Problem 1", "Problem about the problems", "Good tip",testList,Visibility.PUBLIC);
 
+        List<OutputSolution> outputSolutionList = new ArrayList<>();
+        OutputSolution outputSolution = new OutputSolution("","");
+        outputSolutionList.add(outputSolution);
 
-        Solution solution = new Solution(new User(), "2202", problem, testList);
+        Solution solution = new Solution(new User(), "2202", problem, outputSolutionList);
 
         given()
                 .accept(ContentType.JSON)
@@ -90,7 +91,12 @@ public class SolutionControllerTest {
         testList.add(test);
 
         Problem problem = new Problem(userCreator, "Problem 1", "Problem about the problems", "Good tip",testList,Visibility.PUBLIC);
-        Solution solution = new Solution(new User(), "2202", problem, testList);
+
+        List<OutputSolution> outputSolutionList = new ArrayList<>();
+        OutputSolution outputSolution = new OutputSolution("","");
+        outputSolutionList.add(outputSolution);
+
+        Solution solution = new Solution(new User(), "2202", problem, outputSolutionList);
         int id = 11;
 
         given()
