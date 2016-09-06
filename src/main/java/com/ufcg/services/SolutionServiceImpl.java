@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("solutionService")
@@ -40,7 +41,17 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public List<Solution> findAllSolutionsOfProblem(Long problemId) {
-        return solutionRepository.findAll();
+
+        List<Solution> solutions = solutionRepository.findAll();
+        List<Solution> response = new ArrayList<>();
+
+        for (Solution solution: solutions) {
+            if (solution.getProblem().getId() == problemId){
+                response.add(solution);
+            }
+        }
+
+        return response;
     }
 
     @Override

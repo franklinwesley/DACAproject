@@ -32,8 +32,8 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public void updateProblem(Problem problem) {
-        if (isProblemExist(problem)) {
+    public void updateProblem(Long idProblem, Problem problem) {
+        if (problemRepository.exists(problem.getId())) {
             problemRepository.save(problem);
         }
     }
@@ -73,7 +73,7 @@ public class ProblemServiceImpl implements ProblemService {
         if (isProblemExist(problemId)) {
             Problem problem = findById(problemId);
             problem.getTests().add(test);
-            updateProblem(problem);
+            updateProblem(problemId,problem);
         }
     }
 

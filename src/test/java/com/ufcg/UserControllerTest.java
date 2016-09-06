@@ -28,6 +28,7 @@ public class UserControllerTest {
     @Value("${local.server.port}")
     private int port;
     private String route = "/user";
+
     private UserRepository userRepository;
 
     private User user1, user2, user3;
@@ -77,8 +78,6 @@ public class UserControllerTest {
     public void testCreateUser() throws Exception {
         Gson gson = new Gson();
         User user5 = new User("user5@gmail.com", "12j1oi2jow", UserType.NORMAL);
-
-        System.out.println(user5.toString());
 
         given()
                 .contentType(ContentType.JSON)

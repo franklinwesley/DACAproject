@@ -1,5 +1,8 @@
 package com.ufcg.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ public class Solution implements Serializable {
     @Column(nullable = false)
     private String code;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Problem problem;
 
     @ManyToOne

@@ -24,6 +24,10 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
+        User myUser = new User("pablo212123@gmail.com","210494", UserType.ADMINISTRATOR);
+        productRepository.save(myUser);
+        log.info("Saved Mug1212 - id:" + myUser.getId());
+
         for (int i = 0; i < 30; i++) {
             User shirt = new User("userTest"+i+"@gmail.com","2312331", UserType.NORMAL);
             productRepository.save(shirt);

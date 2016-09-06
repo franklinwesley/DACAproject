@@ -3,6 +3,7 @@ package com.ufcg.controllers;
 import com.ufcg.models.Solution;
 import com.ufcg.models.Test;
 import com.ufcg.services.SolutionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class SolutionController {
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity<List<Solution>> getSolutions(@RequestParam(value = "problemId") Long problemId){
         List<Solution> solutions = solutionService.findAllSolutionsOfProblem(problemId);
+
         if(solutions.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

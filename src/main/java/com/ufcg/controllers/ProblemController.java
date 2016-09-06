@@ -28,7 +28,6 @@ public class ProblemController {
                                       @RequestParam(value = "size", defaultValue = "100") int size,
                                       @RequestParam(value = "sort", defaultValue = "date") String sort,
                                       @RequestParam(value = "user", required = false) Long user){
-        //TODO token?
         Page<Problem> problems = problemService.findAllProblems(page,size,sort);
         if(problems.getNumberOfElements() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -75,7 +74,7 @@ public class ProblemController {
         currentProblem.setType(problem.getType());
         currentProblem.setTests(problem.getTests());
 
-        problemService.updateProblem(currentProblem);
+        problemService.updateProblem(problemId, currentProblem);
         return new ResponseEntity<>(currentProblem, HttpStatus.OK);
     }
 
@@ -99,7 +98,7 @@ public class ProblemController {
 
         boolean publishedProblem = problemService.publishProblem(problem);
         if (publishedProblem) {
-            return new ResponseEntity<>(HttpStatus.GONE);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
