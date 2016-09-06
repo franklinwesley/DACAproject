@@ -1,14 +1,15 @@
 package com.ufcg;
 
 import com.google.gson.Gson;
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static com.jayway.restassured.RestAssured.basic;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -40,13 +42,25 @@ public class UserControllerTest {
 
     @Before
     public void setup(){
-        userRepository.deleteAll();
+        String username = "userTest@gmail.com";
+        String password = "2312331";
+
+        User userTest = new User(username,password, UserType.NORMAL);
+        userRepository.save(userTest);
+
+        RestAssured.authentication = basic(username, password);
+
         user1 = new User("user1@gmail.com", "12919121", UserType.NORMAL);
         user2 = new User("user2@gmail.com", "aposm212om", UserType.ADMINISTRATOR);
         user3 = new User("user3@gmail.com", "210eo01e", UserType.NORMAL);
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
+    }
+
+    @After
+    public void setdown() {
+        userRepository.deleteAll();
     }
 
     @Test
@@ -92,6 +106,7 @@ public class UserControllerTest {
     @Test
     public void testUpdateUser() throws Exception {
         user1.setEmail(user2.getEmail());
+
         given()
                 .contentType(ContentType.JSON)
                 .body(user1)

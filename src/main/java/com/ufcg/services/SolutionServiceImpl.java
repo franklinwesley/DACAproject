@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("solutionService")
 @Transactional
@@ -46,7 +47,7 @@ public class SolutionServiceImpl implements SolutionService {
         List<Solution> response = new ArrayList<>();
 
         for (Solution solution: solutions) {
-            if (solution.getProblem().getId() == problemId){
+            if (Objects.equals(solution.getProblem().getId(), problemId)){
                 response.add(solution);
             }
         }
@@ -81,6 +82,11 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public void deleteUserSolutions(Long userId) {
-        solutionRepository.deleteAll(userId);
+        solutionRepository.deleteAllUserProblems(userId);
+    }
+
+    @Override
+    public void deleteProblemSolutions(Long problemId) {
+        solutionRepository.deleteAllSolutionProblem(problemId);
     }
 }

@@ -1,5 +1,6 @@
 package com.ufcg;
 
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.Utils.Visibility;
@@ -9,6 +10,7 @@ import com.ufcg.repositories.ProblemRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jayway.restassured.RestAssured.basic;
 import static com.jayway.restassured.RestAssured.given;
 
 @SpringApplicationConfiguration(classes=DacaApplication.class)
@@ -51,6 +54,13 @@ public class TestControllerTest {
 
     @Before
     public void setup(){
+        String username = "userTest@gmail.com";
+        String password = "2312331";
+
+        User userTest = new User(username,password, UserType.NORMAL);
+        userRepository.save(userTest);
+
+        RestAssured.authentication = basic(username, password);
 
         testList = new ArrayList<>();
 
@@ -71,6 +81,11 @@ public class TestControllerTest {
         problemRepository.save(problem);
     }
 
+    @After
+    public void setdown() {
+        problemRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     public void testGetTests() throws Exception {

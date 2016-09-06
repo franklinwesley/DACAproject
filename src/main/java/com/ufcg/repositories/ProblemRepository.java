@@ -21,6 +21,7 @@ public interface ProblemRepository extends PagingAndSortingRepository<Problem,Lo
     @Query("select p.tests from Problem p where p.id=?1")
     List<Test> getTests(Long problemId);
 
+    @Modifying
     @Query("delete from Problem p where p.creator.id=?1")
     void deleteAll(Long userId);
 }

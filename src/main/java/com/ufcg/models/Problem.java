@@ -15,7 +15,7 @@ public class Problem implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private User creator;
 
     @Column(nullable = false)

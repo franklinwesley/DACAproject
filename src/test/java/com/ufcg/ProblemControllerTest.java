@@ -4,7 +4,6 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.Utils.Visibility;
-import com.ufcg.loaders.UserLoader;
 import com.ufcg.models.Problem;
 import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
@@ -52,9 +51,11 @@ public class ProblemControllerTest {
 
     @Before
     public void setUp(){
-        String username = "userTest1@gmail.com";
+        String username = "userTest@gmail.com";
         String password = "2312331";
 
+        User userTest = new User(username,password, UserType.NORMAL);
+        userRepository.save(userTest);
         User user = new User("pablo@gmail.com","2312331", UserType.NORMAL);
         userRepository.save(user);
 
@@ -84,6 +85,7 @@ public class ProblemControllerTest {
     @After
     public void after(){
         problemRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
