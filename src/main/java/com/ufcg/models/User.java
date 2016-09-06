@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     @Column(nullable = false)
-    @JsonIgnore
     private String password;
 
     @Column(nullable = false, unique = true)

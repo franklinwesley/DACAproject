@@ -42,7 +42,7 @@ public class TestControllerTest {
     private String[] testInput;
     private String[] testOutput;
     private List<com.ufcg.models.Test> testList;
-    private int idProblemNotExist = 11;
+    private int idProblemNotExist = 0;
     private int idTestNotExist = 112;
     private int idTestExist = 1;
 
@@ -108,7 +108,7 @@ public class TestControllerTest {
                 .port(this.port)
                 .get("/problem/{id}/test", idProblemNotExist)
                 .then().assertThat()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class TestControllerTest {
         given()
                 .when()
                 .port(this.port)
-                .get("/problem/{idProblem}/test/{idTest}" ,problem.getId(), idTestExist)
+                .get("/problem/{idProblem}/test/{idTest}" ,problem.getId(), testList.get(0).getId())
                 .then().assertThat()
                 .statusCode(200);
     }
@@ -157,7 +157,7 @@ public class TestControllerTest {
                 .body(test)
                 .when()
                 .port(this.port)
-                .put("/problem/{idProblem}/test/{idTest}", problem.getId(), idTestExist)
+                .put("/problem/{idProblem}/test/{idTest}", problem.getId(), testList.get(0).getId())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK);
@@ -182,7 +182,7 @@ public class TestControllerTest {
         given()
                 .when()
                 .port(this.port)
-                .delete("/problem/{idProblem}/test/{idTest}", problem.getId(), idTestExist)
+                .delete("/problem/{idProblem}/test/{idTest}", problem.getId(), testList.get(0).getId())
                 .then()
                 .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
     }

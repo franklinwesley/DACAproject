@@ -1,10 +1,12 @@
 package com.ufcg.services;
 
 import com.ufcg.models.User;
+import com.ufcg.models.UserDTO;
 import com.ufcg.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("userService")
@@ -20,8 +22,8 @@ public class UserServiceImpl implements UserService {
     SolutionService solutionService;
 
     @Override
-    public User findById(Long id) {
-        return userRepository.findOne(id);
+    public UserDTO findById(Long id) {
+        return new UserDTO(userRepository.findOne(id));
     }
 
     @Override
@@ -37,15 +39,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        problemService.deleteUserProblems(user.getId());
-        solutionService.deleteUserSolutions(user.getId());
+    public void deleteUser(Long user) {
+        problemService.deleteUserProblems(user);
+        solutionService.deleteUserSolutions(user);
         userRepository.delete(user);
     }
 
     @Override
-    public List<User> findAllUser() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUser() {
+        List<UserDTO> result = new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            result.add(new UserDTO(user));
+        }
+        return result;
     }
 
     @Override

@@ -18,10 +18,10 @@ public class TestController {
     @Autowired
     TestService testService;
 
-    @RequestMapping(value="/", method= RequestMethod.GET)
+    @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity<List<Test>> getTests(@PathVariable("problemId") Long problemId){
         List<Test> test = testService.findByProblemId(problemId);
-        if(test == null){
+        if(test.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(test, HttpStatus.OK);

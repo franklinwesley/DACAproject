@@ -56,6 +56,6 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<Test> findByProblemId(Long problemId) {
-        return problemService.getTests(problemId);
+        return testRepository.findByProblem(problemId);
     }
 }

@@ -105,7 +105,7 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        user1.setEmail(user2.getEmail());
+        user1.setEmail("newUser@gmail.com");
 
         given()
                 .contentType(ContentType.JSON)

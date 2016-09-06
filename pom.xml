@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<!--<scope>runtime</scope>-->
 		</dependency>
 
 		<dependency>
@@ -91,7 +91,6 @@
 			<version>20160810</version>
 		</dependency>
 
-
 		<!-- SEGURANÇA &ndash;&gt;-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -132,6 +131,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

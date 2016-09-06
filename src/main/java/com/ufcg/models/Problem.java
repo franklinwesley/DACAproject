@@ -27,7 +27,7 @@ public class Problem implements Serializable{
     @Column(nullable = false)
     private String tip;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "problem", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Test> tests;
 
     @Column
