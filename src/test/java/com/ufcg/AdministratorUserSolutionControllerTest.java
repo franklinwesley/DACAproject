@@ -1,5 +1,6 @@
 package com.ufcg;
 
+
 import com.google.gson.Gson;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
@@ -32,7 +33,9 @@ import static com.jayway.restassured.RestAssured.given;
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SolutionControllerTest {
+public class AdministratorUserSolutionControllerTest {
+
+
     @Value("${local.server.port}")
     private int port;
     private String route = "/solution";
@@ -55,10 +58,8 @@ public class SolutionControllerTest {
 
     @Before
     public void setUp(){
-        String username = "userTestSolution@gmail.com";
+        String username = "userAdminSolution@gmail.com";
         String password = "2312331";
-
-        RestAssured.authentication = basic(username, password);
 
         userCreator = new User(username, password, UserType.ADMINISTRATOR);
         userRepository.save(userCreator);
@@ -72,6 +73,8 @@ public class SolutionControllerTest {
         outputSolutions.add(outputSolution);
         solution = new Solution(userCreator, "Code", problem, outputSolutions);
         solutionRepository.save(solution);
+
+        RestAssured.authentication = basic(username, password);
     }
 
     @After
@@ -177,4 +180,5 @@ public class SolutionControllerTest {
                 .then()
                 .assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
     }
+
 }

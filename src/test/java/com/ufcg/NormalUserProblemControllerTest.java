@@ -5,6 +5,7 @@ import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.Test;
 import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
 import com.ufcg.repositories.UserRepository;
@@ -13,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +30,7 @@ import static com.jayway.restassured.RestAssured.given;
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ProblemControllerTest {
+public class NormalUserProblemControllerTest {
 
     @Value("${local.server.port}")
     private int port;
@@ -41,8 +41,6 @@ public class ProblemControllerTest {
 
     private Problem problem1, problem2;
 
-    private Logger log = Logger.getLogger(ProblemControllerTest.class);
-
     @Autowired
     public void setProblemRepository(ProblemRepository problemRepository, UserRepository userRepository) {
         this.problemRepository = problemRepository;
@@ -51,17 +49,17 @@ public class ProblemControllerTest {
 
     @Before
     public void setUp(){
-        String username = "userTest@gmail.com";
+        String username = "usernormal1@gmail.com";
         String password = "2312331";
 
         User userTest = new User(username,password, UserType.NORMAL);
         userRepository.save(userTest);
-        User user = new User("pablo@gmail.com","2312331", UserType.NORMAL);
+        User user = new User("usernormal2@gmail.com","2312331", UserType.NORMAL);
         userRepository.save(user);
 
         com.ufcg.models.Test problemTest = new com.ufcg.models.Test("problemTest", "Use Scanner object",
                 "oi", "oi", Visibility.PUBLIC);
-        List<com.ufcg.models.Test> problemtests = new ArrayList<>();
+        List<Test> problemtests = new ArrayList<>();
         problemtests.add(problemTest);
 
         problem1 = new Problem(user, "Print input", "Print the program input",
@@ -77,8 +75,6 @@ public class ProblemControllerTest {
                 "Use Scanner object", testList, Visibility.PUBLIC);
         problemRepository.save(problem2);
 
-        log.info("Saved problem - id:" + problem2.getId());
-
         RestAssured.authentication = basic(username, password);
     }
 
@@ -88,7 +84,7 @@ public class ProblemControllerTest {
         userRepository.deleteAll();
     }
 
-    @Test
+    @org.junit.Test
     public void testGetProblems() throws Exception {
         given()
                 .contentType(ContentType.JSON)
@@ -100,7 +96,7 @@ public class ProblemControllerTest {
                 .body("numberOfElements", Matchers.equalTo(2));
     }
 
-    @Test
+    @org.junit.Test
     public void testGetProblemsWithParamsNoUser() throws Exception {
         given()
                 .contentType(ContentType.JSON)
@@ -115,7 +111,7 @@ public class ProblemControllerTest {
                 .body("numberOfElements", Matchers.equalTo(2));
     }
 
-    @Test
+    @org.junit.Test
     public void testGetProblemsWithParamsAndUser() throws Exception {
         given()
                 .contentType(ContentType.JSON)
@@ -131,22 +127,22 @@ public class ProblemControllerTest {
                 .body("numberOfElements", Matchers.equalTo(2));
     }
 
-    @Test
+    @org.junit.Test
     public void testGetProblemById() throws Exception {
         int id = 1;
         given()
                 .when()
                 .port(this.port)
-                .get(route +"/" + id)
+                .get(route +"/" + problem1.getId())
                 .then().assertThat()
                 .statusCode(HttpStatus.SC_OK)
-                .body("id", Matchers.equalTo(1));
+                .body("id", Matchers.equalTo(problem1.getId().intValue()));
     }
 
-    @Test
+    @org.junit.Test
     public void testCreateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
-        User user = new User("usertest099@gmail.com", "1234567", UserType.ADMINISTRATOR);
+        User user = new User("usernormal@gmail.com", "123456", UserType.NORMAL);
         userRepository.save(user);
         Problem problem = new Problem(user, "name Problem", "description","tip", tests, Visibility.PUBLIC);
         given()
@@ -160,7 +156,7 @@ public class ProblemControllerTest {
                 .statusCode(HttpStatus.SC_CREATED);
     }
 
-    @Test
+    @org.junit.Test
     public void testUpdateProblem() throws Exception {
         List<com.ufcg.models.Test> tests = new ArrayList<>();
         Problem problem = new Problem(new User(), "name", "description","tip", tests, Visibility.PUBLIC);
@@ -177,23 +173,24 @@ public class ProblemControllerTest {
                 .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    @Test
+    @org.junit.Test
     public void testDeleteProblem() throws Exception {
         given()
                 .when()
-                    .port(this.port)
-                    .delete(route + "/{id}", problem2.getId())
+                .port(this.port)
+                .delete(route + "/{id}", problem2.getId())
                 .then()
-                    .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
+                .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    @Test
+    @org.junit.Test
     public void testPublishProblem() throws Exception {
         given()
                 .when()
-                    .port(this.port)
-                    .patch(route + "/{id}",problem1.getId())
+                .port(this.port)
+                .patch(route + "/{id}",problem1.getId())
                 .then()
-                    .assertThat().statusCode(HttpStatus.SC_OK);
+                .assertThat().statusCode(HttpStatus.SC_OK);
     }
+
 }

@@ -22,12 +22,13 @@ import static com.jayway.restassured.RestAssured.given;
 @SpringApplicationConfiguration(classes=DacaApplication.class)
 @WebIntegrationTest("server.port=0")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StatisticControllerTest {
-
+public class AdministratorUserStatisticControllerTest {
     @Value("${local.server.port}")
     private int port;
     private String route = "/statistic";
     private UserRepository userRepository;
+    private User userTest;
+    private User userAdmin;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -36,11 +37,11 @@ public class StatisticControllerTest {
 
     @Before
     public void setUp(){
-        String username = "userTest@gmail.com";
-        String password = "2312331";
+        String username = "useradminstatistic@gmail.com";
+        String password = "123456";
 
-        User userTest = new User(username,password, UserType.NORMAL);
-        userRepository.save(userTest);
+        userAdmin = new User(username,password, UserType.ADMINISTRATOR);
+        userRepository.save(userAdmin);
 
         RestAssured.authentication = basic(username, password);
     }
@@ -55,12 +56,12 @@ public class StatisticControllerTest {
 
         given()
                 .when()
-                    .port(this.port)
-                    .get(route)
+                .port(this.port)
+                .get(route)
                 .then().assertThat()
-                    .statusCode(HttpStatus.SC_OK)
-                    .body("resolvedProblems", Matchers.equalTo(0))
-                    .body("usersSubmittingProblems", Matchers.equalTo(0));
+                .statusCode(HttpStatus.SC_OK)
+                .body("resolvedProblems", Matchers.equalTo(0))
+                .body("usersSubmittingProblems", Matchers.equalTo(0));
     }
 
     @Test
@@ -76,5 +77,4 @@ public class StatisticControllerTest {
                 .body("usersSubmittingProblems", Matchers.equalTo(0))
                 .body("userResolvedProblems", Matchers.equalTo(0));
     }
-
 }
