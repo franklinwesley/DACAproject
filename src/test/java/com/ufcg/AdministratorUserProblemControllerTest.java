@@ -134,7 +134,7 @@ public class AdministratorUserProblemControllerTest {
                 .get(route +"/" + problem1.getId())
                 .then().assertThat()
                 .statusCode(HttpStatus.SC_OK)
-                .body("id", Matchers.equalTo(1));
+                .body("id", Matchers.equalTo(problem1.getId().intValue()));
     }
 
     @org.junit.Test
