@@ -19,14 +19,14 @@ import java.util.List;
 @Component
 public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private UserRepository productRepository;
+    private UserRepository userRepository;
     private ProblemRepository problemRepository;
 
     private Logger log = Logger.getLogger(UserLoader.class);
 
     @Autowired
-    public void setProductRepository(UserRepository productRepository, ProblemRepository problemRepository) {
-        this.productRepository = productRepository;
+    public void setProductRepository(UserRepository userRepository, ProblemRepository problemRepository) {
+        this.userRepository = userRepository;
         this.problemRepository = problemRepository;
     }
 
@@ -34,15 +34,23 @@ public class UserLoader implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         User myUser = new User("admin@gmail.com","123456", UserType.ADMINISTRATOR);
-        productRepository.save(myUser);
+        userRepository.save(myUser);
         log.info("Saved user - id:" + myUser.getId());
 
         for (int i = 0; i < 30; i++) {
-            User shirt = new User("userTest"+i+"@gmail.com","123456", UserType.NORMAL);
-            productRepository.save(shirt);
-            log.info("Saved - id:" + shirt.getId());
-        }
+            User user = new User("userTest"+i+"@gmail.com","123456", UserType.NORMAL);
+            userRepository.save(user);
+            log.info("Saved - id:" + user.getId());
+            Test problemTest2 = new com.ufcg.models.Test("problemTest 2", "Use Scanner object",
+                    "oi", "oi", Visibility.PUBLIC);
 
+            List<Test> testList = new ArrayList<>();
+            testList.add(problemTest2);
+
+            Problem problem2 = new Problem(user, "Print input 2", "Print the program input",
+                    "Use Scanner object", testList, Visibility.PUBLIC);
+            problemRepository.save(problem2);
+        }
     }
 }
 
