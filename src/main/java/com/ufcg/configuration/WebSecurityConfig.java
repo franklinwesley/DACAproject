@@ -25,9 +25,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    final String ROLE = "ROLE_";
-    final String ROLE_USER = ROLE + UserType.NORMAL.toString();
-    final String ROLE_ADMIN = ROLE + UserType.ADMINISTRATOR.toString();
+    private final String ROLE = "ROLE_";
+    private final String ROLE_USER = ROLE + UserType.NORMAL.toString();
+    private final String ROLE_ADMIN = ROLE + UserType.ADMINISTRATOR.toString();
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
