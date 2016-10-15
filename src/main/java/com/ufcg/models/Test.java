@@ -94,8 +94,7 @@ public class Test implements Serializable{
 
         Test test = (Test) o;
 
-        if (input != null ? !input.equals(test.input) : test.input != null) return false;
-        return output != null ? output.equals(test.output) : test.output == null;
+        return input != null ? input.equals(test.input) : test.input == null && (output != null ? output.equals(test.output) : test.output == null);
 
     }
 
