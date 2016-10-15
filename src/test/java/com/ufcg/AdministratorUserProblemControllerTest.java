@@ -5,9 +5,11 @@ import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.Utils.Visibility;
 import com.ufcg.models.Problem;
+import com.ufcg.models.Solution;
 import com.ufcg.models.Test;
 import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
@@ -42,19 +44,22 @@ public class AdministratorUserProblemControllerTest {
     private UserRepository userRepository;
 
     private Problem problem1, problem2;
+    private SolutionRepository solutionRepository;
 
     @Autowired
-    public void setProblemRepository(ProblemRepository problemRepository, UserRepository userRepository) {
+    public void setProblemRepository(ProblemRepository problemRepository
+            , UserRepository userRepository, SolutionRepository solutionRepository) {
         this.problemRepository = problemRepository;
         this.userRepository = userRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
     public void setUp(){
 
-        Random randomNumber = new Random(1000);
+        Random randomNumber = new Random();
 
-        String username = "useradmin"+randomNumber.nextInt()+"@gmail.com";
+        String username = "useradmin"+randomNumber.nextInt(100)+"@gmail.com";
         String password = "2312331";
 
         User userTest = new User(username,password, UserType.ADMINISTRATOR);
@@ -83,6 +88,7 @@ public class AdministratorUserProblemControllerTest {
 
     @After
     public void after(){
+        solutionRepository.deleteAll();
         problemRepository.deleteAll();
         userRepository.deleteAll();
     }

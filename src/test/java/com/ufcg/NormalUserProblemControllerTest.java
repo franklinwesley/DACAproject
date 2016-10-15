@@ -8,6 +8,7 @@ import com.ufcg.models.Problem;
 import com.ufcg.models.Test;
 import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
@@ -40,11 +41,14 @@ public class NormalUserProblemControllerTest {
     private UserRepository userRepository;
 
     private Problem problem1, problem2;
+    private SolutionRepository solutionRepository;
 
     @Autowired
-    public void setProblemRepository(ProblemRepository problemRepository, UserRepository userRepository) {
+    public void setProblemRepository(ProblemRepository problemRepository
+            ,UserRepository userRepository, SolutionRepository solutionRepository) {
         this.problemRepository = problemRepository;
         this.userRepository = userRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
@@ -80,6 +84,7 @@ public class NormalUserProblemControllerTest {
 
     @After
     public void after(){
+        solutionRepository.deleteAll();
         problemRepository.deleteAll();
         userRepository.deleteAll();
     }

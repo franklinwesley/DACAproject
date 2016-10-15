@@ -5,6 +5,8 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -34,10 +36,15 @@ public class NormalUserControllerTest {
 
     private UserRepository userRepository;
     private User userTest;
+    private ProblemRepository problemRepository;
+    private SolutionRepository solutionRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository
+            , ProblemRepository problemRepository, SolutionRepository solutionRepository) {
         this.userRepository = userRepository;
+        this.problemRepository = problemRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
@@ -53,6 +60,8 @@ public class NormalUserControllerTest {
 
     @After
     public void setdown() {
+        solutionRepository.deleteAll();
+        problemRepository.deleteAll();
         userRepository.deleteAll();
     }
 

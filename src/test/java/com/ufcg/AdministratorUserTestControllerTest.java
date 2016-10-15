@@ -8,6 +8,7 @@ import com.ufcg.models.Problem;
 import com.ufcg.models.Test;
 import com.ufcg.models.User;
 import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.junit.After;
@@ -43,11 +44,14 @@ public class AdministratorUserTestControllerTest {
     private int idProblemNotExist = 12012;
     private int idTestNotExist = 11212;
     private int idTestExist = 1;
+    private SolutionRepository solutionRepository;
 
     @Autowired
-    public void setProblemRepository(ProblemRepository problemRepository, UserRepository userRepository) {
+    public void setProblemRepository(ProblemRepository problemRepository, UserRepository userRepository,
+                                     SolutionRepository solutionRepository) {
         this.problemRepository = problemRepository;
         this.userRepository = userRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
@@ -79,6 +83,7 @@ public class AdministratorUserTestControllerTest {
 
     @After
     public void setdown() {
+        solutionRepository.deleteAll();
         problemRepository.deleteAll();
         userRepository.deleteAll();
     }

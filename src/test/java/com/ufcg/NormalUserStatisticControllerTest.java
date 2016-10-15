@@ -4,6 +4,8 @@ package com.ufcg;
 import com.jayway.restassured.RestAssured;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -29,10 +31,15 @@ public class NormalUserStatisticControllerTest {
     private int port;
     private String route = "/statistic";
     private UserRepository userRepository;
+    private ProblemRepository problemRepository;
+    private SolutionRepository solutionRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository, ProblemRepository problemRepository,
+                                  SolutionRepository solutionRepository) {
+        this.problemRepository = problemRepository;
         this.userRepository = userRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
@@ -48,6 +55,8 @@ public class NormalUserStatisticControllerTest {
 
     @After
     public void after(){
+        solutionRepository.deleteAll();
+        problemRepository.deleteAll();
         userRepository.deleteAll();
     }
 

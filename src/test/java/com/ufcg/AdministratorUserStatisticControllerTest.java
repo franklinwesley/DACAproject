@@ -3,6 +3,8 @@ package com.ufcg;
 import com.jayway.restassured.RestAssured;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import com.ufcg.repositories.ProblemRepository;
+import com.ufcg.repositories.SolutionRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -29,14 +31,20 @@ public class AdministratorUserStatisticControllerTest {
     private UserRepository userRepository;
     private User userTest;
     private User userAdmin;
+    private SolutionRepository solutionRepository;
+    private ProblemRepository problemRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository, ProblemRepository problemRepository,
+                                  SolutionRepository solutionRepository) {
+        this.problemRepository = problemRepository;
         this.userRepository = userRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @Before
     public void setUp(){
+        after();
         String username = "useradminstatistic@gmail.com";
         String password = "123456";
 
@@ -48,6 +56,8 @@ public class AdministratorUserStatisticControllerTest {
 
     @After
     public void after(){
+        solutionRepository.deleteAll();
+        problemRepository.deleteAll();
         userRepository.deleteAll();
     }
 
