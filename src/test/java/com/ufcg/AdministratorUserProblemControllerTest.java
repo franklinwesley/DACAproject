@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.jayway.restassured.RestAssured.basic;
 import static com.jayway.restassured.RestAssured.given;
@@ -50,7 +51,10 @@ public class AdministratorUserProblemControllerTest {
 
     @Before
     public void setUp(){
-        String username = "useradmin@gmail.com";
+
+        Random randomNumber = new Random(1000);
+
+        String username = "useradmin"+randomNumber.nextInt()+"@gmail.com";
         String password = "2312331";
 
         User userTest = new User(username,password, UserType.ADMINISTRATOR);

@@ -2,7 +2,6 @@ package com.ufcg.configuration;
 
 import com.ufcg.Utils.UserType;
 import com.ufcg.repositories.UserRepository;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +15,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
 @Configuration
@@ -26,6 +28,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String ROLE = "ROLE_";
     private final String ROLE_USER = ROLE + UserType.NORMAL.toString();
     private final String ROLE_ADMIN = ROLE + UserType.ADMINISTRATOR.toString();
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+        };
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.DELETE, "/test/*").hasAnyAuthority(ROLE_ADMIN, ROLE_USER)
                     .antMatchers(HttpMethod.POST, "/test").hasAnyAuthority(ROLE_ADMIN, ROLE_USER)
                     .antMatchers(HttpMethod.PUT, "/test/*").hasAnyAuthority(ROLE_ADMIN, ROLE_USER)
-                .anyRequest().authenticated().and().csrf().disable();
+                .anyRequest().permitAll().and().csrf().disable();
         http
                 .csrf().disable();
     }

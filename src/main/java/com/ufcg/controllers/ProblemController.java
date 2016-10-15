@@ -1,16 +1,22 @@
 package com.ufcg.controllers;
 
 import com.ufcg.models.Problem;
+import com.ufcg.models.ProblemDTO;
 import com.ufcg.services.ProblemService;
 import com.ufcg.services.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,7 @@ public class ProblemController {
                                       @RequestParam(value = "size", defaultValue = "100") int size,
                                       @RequestParam(value = "sort", defaultValue = "date") String sort,
                                       @RequestParam(value = "user", required = false) Long user){
+
         Page<Problem> problems = problemService.findAllProblems(page,size,sort);
         if(problems.getNumberOfElements() == 0){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,7 +46,18 @@ public class ProblemController {
                 problems.getContent().get(index).setResolved(true);
             }
         }
-        return new ResponseEntity<>(problems, HttpStatus.OK);
+
+        List<ProblemDTO> problemDTOs = new ArrayList<>();
+
+        for (Problem problem: problems) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String date = problem.getDate().format(formatter);
+            problemDTOs.add(new ProblemDTO(problem.getId(), problem.getName(), problem.getDescription(), date, problem.isResolved()));
+        }
+
+        Page<ProblemDTO> problemDTOPage = new PageImpl(problemDTOs);
+
+        return new ResponseEntity<>(problemDTOPage, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)

@@ -5,6 +5,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.ufcg.Utils.UserType;
 import com.ufcg.models.User;
+import com.ufcg.repositories.ProblemRepository;
 import com.ufcg.repositories.UserRepository;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Random;
 
 import static com.jayway.restassured.RestAssured.basic;
 import static com.jayway.restassured.RestAssured.given;
@@ -35,25 +38,34 @@ public class AdministratorUserControllerTest {
     private UserRepository userRepository;
 
     private User userAdmin;
+    private int idUser;
+    private String username;
+    private ProblemRepository problemRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository, ProblemRepository problemRepository) {
         this.userRepository = userRepository;
+        this.problemRepository = problemRepository;
     }
 
     @Before
     public void setup(){
-        String username = "useradmin@gmail.com";
+        Random randomNumber = new Random(1000);
+
+        username = "useradmin"+randomNumber.nextInt()+"@gmail.com";
         String password = "123456";
 
         userAdmin = new User(username,password, UserType.ADMINISTRATOR);
         userRepository.save(userAdmin);
+
+        idUser = userAdmin.getId().intValue();
 
         RestAssured.authentication = basic(username, password);
     }
 
     @After
     public void setdown() {
+        problemRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -66,7 +78,7 @@ public class AdministratorUserControllerTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
-                .body("email", Matchers.hasItems(userAdmin.getEmail()));
+                .body("email", Matchers.hasItems(username));
     }
 
     @Test
@@ -78,8 +90,8 @@ public class AdministratorUserControllerTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
-                .body("email", Matchers.is(userAdmin.getEmail()))
-                .body("id", is(userAdmin.getId().intValue()));
+                .body("email", Matchers.is(username))
+                .body("id", is(idUser));
     }
 
     @Test
@@ -106,7 +118,7 @@ public class AdministratorUserControllerTest {
                 .body(userAdmin)
                 .when()
                 .port(this.port)
-                .put(route + "/{id}", userAdmin.getId())
+                .put(route + "/{id}", idUser)
                 .then()
                 .assertThat().statusCode(HttpStatus.SC_OK);
     }
@@ -116,7 +128,7 @@ public class AdministratorUserControllerTest {
         given()
                 .when()
                 .port(this.port)
-                .delete(route + "/{id}",userAdmin.getId())
+                .delete(route + "/{id}",idUser)
                 .then()
                 .assertThat().statusCode(HttpStatus.SC_NO_CONTENT);
     }
