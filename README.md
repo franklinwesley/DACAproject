@@ -15,5 +15,6 @@ Backend da pagina [Dirlididi](http://dirlididi.com/client/index.html)
 # Execução local (Passos)
 - mvn spring-boot:run
 - mvn test
+- mvn package
 
 

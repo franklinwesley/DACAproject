@@ -6,6 +6,9 @@ import com.ufcg.services.ProblemService;
 import com.ufcg.services.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +55,9 @@ public class ProblemController {
             problemDTOs.add(new ProblemDTO(problem.getId(), problem.getName(), problem.getDescription(), date, problem.isResolved()));
         }
 
-        return new ResponseEntity<>(problemDTOs, HttpStatus.OK);
+        Page<ProblemDTO> problemDTOPage = new PageImpl(problemDTOs);
+
+        return new ResponseEntity<>(problemDTOPage, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
