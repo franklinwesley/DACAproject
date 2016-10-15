@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("testService")
 @Transactional
 public class TestServiceImpl implements TestService {
@@ -50,5 +52,10 @@ public class TestServiceImpl implements TestService {
             result = testRepository.exists(test.getId());
         }
         return result;
+    }
+
+    @Override
+    public List<Test> findByProblemId(Long problemId) {
+        return testRepository.findByProblemId(problemId);
     }
 }

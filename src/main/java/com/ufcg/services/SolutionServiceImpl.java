@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("solutionService")
 @Transactional
@@ -40,7 +42,17 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public List<Solution> findAllSolutionsOfProblem(Long problemId) {
-        return solutionRepository.findAll();
+
+        List<Solution> solutions = solutionRepository.findAll();
+        List<Solution> response = new ArrayList<>();
+
+        for (Solution solution: solutions) {
+            if (Objects.equals(solution.getProblem().getId(), problemId)){
+                response.add(solution);
+            }
+        }
+
+        return response;
     }
 
     @Override
@@ -66,5 +78,15 @@ public class SolutionServiceImpl implements SolutionService {
     @Override
     public int userSubmitting() {
         return solutionRepository.countDistinctCreators();
+    }
+
+    @Override
+    public void deleteUserSolutions(Long userId) {
+        solutionRepository.deleteAllUserProblems(userId);
+    }
+
+    @Override
+    public void deleteProblemSolutions(Long problemId) {
+        solutionRepository.deleteAllSolutionProblem(problemId);
     }
 }

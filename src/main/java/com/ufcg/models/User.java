@@ -1,5 +1,6 @@
 package com.ufcg.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufcg.Utils.UserType;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ public class User implements Serializable{
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Id

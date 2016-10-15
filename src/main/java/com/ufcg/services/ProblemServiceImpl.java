@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
+import java.util.List;
 
 @Service("problemService")
 @Transactional
@@ -19,6 +19,12 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
     ProblemRepository problemRepository;
+
+    @Autowired
+    SolutionService solutionService;
+
+    @Autowired
+    TestService testService;
 
     @Override
     public Problem findById(Long id) {
@@ -31,14 +37,15 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public void updateProblem(Problem problem) {
-        if (isProblemExist(problem)) {
+    public void updateProblem(Long idProblem, Problem problem) {
+        if (problemRepository.exists(problem.getId())) {
             problemRepository.save(problem);
         }
     }
 
     @Override
     public void deleteProblem(Problem problem) {
+        solutionService.deleteProblemSolutions(problem.getId());
         problemRepository.delete(problem);
     }
 
@@ -72,7 +79,12 @@ public class ProblemServiceImpl implements ProblemService {
         if (isProblemExist(problemId)) {
             Problem problem = findById(problemId);
             problem.getTests().add(test);
-            updateProblem(problem);
+            updateProblem(problemId,problem);
         }
+    }
+
+    @Override
+    public void deleteUserProblems(Long userId) {
+        problemRepository.deleteAll(userId);
     }
 }

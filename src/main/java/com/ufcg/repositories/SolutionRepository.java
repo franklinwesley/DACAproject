@@ -2,6 +2,7 @@ package com.ufcg.repositories;
 
 import com.ufcg.models.Problem;
 import com.ufcg.models.Solution;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -24,4 +25,12 @@ public interface SolutionRepository extends CrudRepository<Solution,Long> {
 
     @Query("select case when count(s) > 0 then 'true' else 'false' end from Solution s where s.code = ?1")
     boolean existsByCode(String code);
+
+    @Modifying
+    @Query("delete from Solution s where s.creator.id=?1")
+    void deleteAllUserProblems(Long userId);
+
+    @Modifying
+    @Query("delete from Solution s where s.problem.id=?1")
+    void deleteAllSolutionProblem(Long problemId);
 }

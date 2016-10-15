@@ -6,8 +6,7 @@
 	<groupId>com.ufcg</groupId>
 	<artifactId>daca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
+	<packaging>war</packaging>
 	<name>daca</name>
 	<description>Projeto da disciplina DACA em Spring Boot</description>
 
@@ -44,7 +43,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<!--<scope>runtime</scope>-->
 		</dependency>
 
 		<dependency>
@@ -92,6 +91,37 @@
 			<version>20160810</version>
 		</dependency>
 
+		<!-- SEGURANÇA &ndash;&gt;-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>4.0.0.RELEASE</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+		</dependency>
+
+		<!--  TEMPLATE ENGINE &ndash;&gt;-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.5.2</version>
+		</dependency>
+
 		<!-- JavaMelody -->
 		<!-- https://mvnrepository.com/artifact/net.bull.javamelody/javamelody-core -->
 		<dependency>
@@ -130,6 +160,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

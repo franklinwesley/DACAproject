@@ -15,7 +15,7 @@ public class Solution implements Serializable {
     @Column(nullable = false)
     private String code;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Problem problem;
 
     @ManyToOne

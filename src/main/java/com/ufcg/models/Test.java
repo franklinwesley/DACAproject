@@ -1,5 +1,6 @@
 package com.ufcg.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufcg.Utils.Visibility;
 
 import javax.persistence.*;
@@ -27,6 +28,10 @@ public class Test implements Serializable{
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Visibility type;
+
+    @ManyToOne
+    @JsonIgnore
+    private Problem problem;
 
     public Test() {}
 
@@ -101,6 +106,14 @@ public class Test implements Serializable{
         return result;
     }
 
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
+
     @Override
     public String toString() {
         return "Test{" +
@@ -110,6 +123,7 @@ public class Test implements Serializable{
                 ", input='" + input + '\'' +
                 ", output='" + output + '\'' +
                 ", type=" + type +
+                ", problem=" + problem +
                 '}';
     }
 }

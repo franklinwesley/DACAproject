@@ -20,6 +20,7 @@ public class SolutionController {
     @RequestMapping(value="", method= RequestMethod.GET)
     public ResponseEntity<List<Solution>> getSolutions(@RequestParam(value = "problemId") Long problemId){
         List<Solution> solutions = solutionService.findAllSolutionsOfProblem(problemId);
+
         if(solutions.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
